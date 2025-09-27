@@ -1,0 +1,250 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Michael Coleman | AI‑Forward Learning & Performance</title>
+  <meta name="description" content="Michael Coleman, Ph.D. — AI‑forward Learning & Performance Consultant. Featured projects: ACE and SIMPLE." />
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <style>
+    :root{
+      --primary:#0ea5e9; /* sky-500 */
+      --primary-dark:#0284c7; /* sky-600 */
+      --bg:#0b1020; /* deep blue for hero */
+      --surface:#ffffff;
+      --text:#0f172a; /* slate-900 */
+      --muted:#475569; /* slate-600 */
+      --ring: rgba(14,165,233,.35);
+      --radius: 16px;
+      --shadow: 0 10px 25px rgba(2,8,23,.08);
+      --maxw: 1200px;
+    }
+    *{box-sizing:border-box}
+    body{font-family:'Poppins',system-ui,-apple-system,Segoe UI,Roboto,Helvetica,Arial,sans-serif;color:var(--text);background:#f7fafc;line-height:1.6}
+    a{color:inherit;text-decoration:none}
+    img{max-width:100%;display:block}
+
+    /* Header */
+    header{position:sticky;top:0;z-index:50;background:rgba(255,255,255,.85);backdrop-filter:saturate(180%) blur(10px);border-bottom:1px solid #e2e8f0}
+    .nav{max-width:var(--maxw);margin:0 auto;display:flex;align-items:center;justify-content:space-between;padding:14px 20px}
+    .brand{display:flex;align-items:center;gap:12px;font-weight:700}
+    .brand .dot{width:10px;height:10px;border-radius:50%;background:var(--primary)}
+    .tag{font-weight:500;color:var(--muted);font-size:.95rem}
+    .menu{display:flex;gap:20px;align-items:center}
+    .menu a{padding:8px 12px;border-radius:10px}
+    .menu a:hover{background:#eaf6fe}
+    .cta{display:flex;gap:10px;align-items:center}
+    .btn{display:inline-flex;align-items:center;justify-content:center;padding:10px 16px;border-radius:12px;font-weight:600;border:1px solid #cbe7fb;background:white}
+    .btn.primary{background:var(--primary);border-color:var(--primary);color:white}
+    .btn.primary:hover{background:var(--primary-dark);border-color:var(--primary-dark)}
+    .btn:focus{outline:3px solid var(--ring);outline-offset:2px}
+
+    /* Mobile nav */
+    .hamburger{display:none;background:none;border:none;font-size:26px}
+    @media (max-width: 840px){
+      .menu{display:none}
+      .hamburger{display:block}
+      .drawer{position:fixed;inset:0 0 auto auto;width:min(86%,320px);height:100vh;background:white;box-shadow:var(--shadow);transform:translateX(100%);transition:transform .3s ease;display:flex;flex-direction:column;padding:20px;gap:8px}
+      .drawer.open{transform:translateX(0)}
+      .drawer a{padding:12px 10px;border-radius:10px}
+      .drawer .sep{height:1px;background:#e2e8f0;margin:10px 0}
+    }
+
+    /* Hero */
+    .hero{background:linear-gradient(180deg, rgba(14,165,233,.20), rgba(14,165,233,0) 55%), linear-gradient(180deg, var(--bg), #0e172a 40%, #f7fafc 100%);color:#eaf2ff}
+    .hero-wrap{max-width:var(--maxw);margin:0 auto;padding:80px 20px 40px}
+    .kicker{letter-spacing:.12em;color:#b6dfff;font-weight:600;text-transform:uppercase;font-size:.85rem}
+    .h1{font-size:clamp(32px,5.5vw,54px);line-height:1.1;margin:.35em 0 .2em;font-weight:800}
+    .sub{max-width:810px;color:#d8e8ff}
+    .hero-cta{margin-top:20px;display:flex;gap:12px;flex-wrap:wrap}
+
+    /* Section shells */
+    section{padding:60px 20px}
+    .wrap{max-width:var(--maxw);margin:0 auto}
+    .section-title{font-size:clamp(22px,3.2vw,32px);margin-bottom:16px}
+    .section-sub{color:var(--muted);max-width:820px}
+
+    /* Projects */
+    .grid{display:grid;grid-template-columns:repeat(12,1fr);gap:22px;margin-top:28px}
+    .card{grid-column:span 6;background:var(--surface);border-radius:var(--radius);box-shadow:var(--shadow);overflow:hidden;border:1px solid #e2e8f0;display:flex;flex-direction:column}
+    .card-media{aspect-ratio:16/9;background:#e6f5fe;display:flex;align-items:center;justify-content:center}
+    .card-body{padding:18px}
+    .chiprow{display:flex;flex-wrap:wrap;gap:8px;margin:10px 0 2px}
+    .chip{font-size:.8rem;background:#eef6ff;border:1px solid #d7ecfe;color:#03436a;padding:6px 10px;border-radius:999px}
+    .card h3{font-size:1.3rem;margin:.2em 0}
+    .meta{color:var(--muted);font-size:.95rem}
+    .bullet{margin:10px 0 2px;padding-left:20px}
+    .bullet li{margin:6px 0}
+    .card .actions{margin-top:auto;padding:0 18px 18px;display:flex;gap:10px}
+
+    @media (max-width: 940px){.card{grid-column:span 12}}
+
+    /* About */
+    .about{background:white;border-top:1px solid #e2e8f0;border-bottom:1px solid #e2e8f0}
+    .about .cols{display:grid;grid-template-columns: 2fr 1fr;gap:22px;margin-top:12px}
+    .stat{background:#f8fbff;border:1px solid #e2effa;border-radius:14px;padding:14px;text-align:center}
+    .stat b{display:block;font-size:1.4rem}
+    @media (max-width: 900px){.about .cols{grid-template-columns:1fr}}
+
+    /* Contact */
+    .contact .cards{display:grid;grid-template-columns:repeat(12,1fr);gap:22px;margin-top:18px}
+    .contact .cards a{grid-column:span 6;border:1px solid #e2e8f0;background:white;border-radius:var(--radius);padding:18px;box-shadow:var(--shadow);display:flex;align-items:center;justify-content:center;font-weight:600}
+    .contact .cards a:hover{background:#f3fbff}
+    @media (max-width: 900px){.contact .cards a{grid-column:span 12}}
+
+    /* Footer */
+    footer{padding:30px 20px;color:#6b7280;text-align:center}
+  </style>
+</head>
+<body>
+  <header>
+    <nav class="nav" aria-label="Main">
+      <div class="brand"><span class="dot" aria-hidden="true"></span> Michael Coleman, Ph.D.</div>
+      <button class="hamburger" aria-label="Open menu" onclick="toggleDrawer()">☰</button>
+      <div class="menu" role="menubar">
+        <a href="#projects" role="menuitem">Projects</a>
+        <!-- Update this href to your actual PDF path -->
+        <a href="/design/assets/Michael-Coleman-Resume.pdf" role="menuitem">Resume</a>
+        <a href="#about" role="menuitem">About</a>
+        <a href="#contact" role="menuitem">Contact</a>
+      </div>
+      <div class="cta">
+        <!-- Replace the old "View Portfolio" with a direct resume link -->
+        <a class="btn" href="#projects">Explore Projects</a>
+        <a class="btn primary" href="/design/assets/Michael-Coleman-Resume.pdf">View Resume</a>
+      </div>
+    </nav>
+    <div class="drawer" id="drawer" aria-hidden="true">
+      <a href="#projects" onclick="toggleDrawer()">Projects</a>
+      <a href="/design/assets/Michael-Coleman-Resume.pdf" onclick="toggleDrawer()">Resume</a>
+      <div class="sep"></div>
+      <a href="#about" onclick="toggleDrawer()">About</a>
+      <a href="#contact" onclick="toggleDrawer()">Contact</a>
+    </div>
+  </header>
+
+  <main>
+    <!-- HERO -->
+    <section class="hero" aria-labelledby="heroheading">
+      <div class="hero-wrap">
+        <div class="kicker">AI‑Forward Learning & Performance</div>
+        <h1 id="heroheading" class="h1">Designing smart, scalable learning that drives adoption & growth.</h1>
+        <p class="sub">I’m an AI‑forward Learning & Performance Consultant blending instructional design, analytics, and modern tooling to solve real business problems. Featured below: <b>ACE</b> (an AI compliance mentor) and <b>SIMPLE</b> (a sales communication simulation).</p>
+        <div class="hero-cta">
+          <a class="btn primary" href="/design/assets/Michael-Coleman-Resume.pdf">View Resume</a>
+          <a class="btn" href="#projects">Explore Projects</a>
+          <span class="tag" aria-hidden="true">• Node.js • OpenAI API • Synthesia • GitHub Pages</span>
+        </div>
+      </div>
+    </section>
+
+    <!-- PROJECTS -->
+    <section id="projects" class="wrap" aria-labelledby="projectsheading">
+      <h2 class="section-title" id="projectsheading">Featured Projects</h2>
+      <p class="section-sub">Two focused showcases that demonstrate strategy, craft, and measurable impact. Each page follows a <b>Problem → Solution → Results</b> flow with clear visuals and artifacts.</p>
+
+      <div class="grid">
+        <!-- ACE -->
+        <article class="card" aria-labelledby="ace-title">
+          <div class="card-media">
+            <!-- Replace with a real cover image, e.g., /design/projects/ace/assets/cover.png -->
+            <img src="https://picsum.photos/800/450?random=11" alt="ACE project cover image placeholder" />
+          </div>
+          <div class="card-body">
+            <div class="chiprow">
+              <span class="chip">AI Mentor</span>
+              <span class="chip">Compliance</span>
+              <span class="chip">OpenAI API</span>
+              <span class="chip">Node.js</span>
+            </div>
+            <h3 id="ace-title">ACE — Assistant for Compliance Excellence</h3>
+            <p class="meta">Just‑in‑time guidance, process navigation, and quiz reinforcement for regulated workflows.</p>
+            <ul class="bullet">
+              <li><b>Problem:</b> Compliance content is dense; learners need faster answers during the flow of work.</li>
+              <li><b>Solution:</b> AI mentor that adapts guidance by user experience and offers step‑by‑step help + micro‑quizzes.</li>
+              <li><b>Results:</b> Faster task completion in tests; strong stakeholder feedback on usability and scalability.</li>
+            </ul>
+          </div>
+          <div class="actions">
+            <a class="btn" href="/design/projects/ace/index.html">View Case Study</a>
+            <a class="btn" href="https://ace-backend-lp1u.onrender.com" target="_blank" rel="noopener">Live Demo</a>
+          </div>
+        </article>
+
+        <!-- SIMPLE -->
+        <article class="card" aria-labelledby="simple-title">
+          <div class="card-media">
+            <!-- Replace with a real cover image, e.g., /design/projects/simple2/assets/cover.png -->
+            <img src="https://picsum.photos/800/450?random=22" alt="SIMPLE project cover image placeholder" />
+          </div>
+          <div class="card-body">
+            <div class="chiprow">
+              <span class="chip">Sales Enablement</span>
+              <span class="chip">Branching Simulation</span>
+              <span class="chip">Synthesia</span>
+              <span class="chip">Feedback Coach</span>
+            </div>
+            <h3 id="simple-title">SIMPLE — Sales Client Communication CYOA</h3>
+            <p class="meta">Branching video with scenario realism and a mentor panel that gives real‑time, actionable feedback.</p>
+            <ul class="bullet">
+              <li><b>Problem:</b> Reps struggle to practice nuanced client conversations in a safe, realistic way.</li>
+              <li><b>Solution:</b> CYOA simulation with video prompts, clickable decision paths, and targeted coaching.</li>
+              <li><b>Results:</b> Increased practice reps; clearer behaviors tied to performance metrics and CSAT.</li>
+            </ul>
+          </div>
+          <div class="actions">
+            <a class="btn" href="/design/projects/simple2/index.html">View Case Study</a>
+            <!-- Add a live prototype link if/when available -->
+          </div>
+        </article>
+      </div>
+    </section>
+
+    <!-- ABOUT -->
+    <section id="about" class="about" aria-labelledby="aboutheading">
+      <div class="wrap">
+        <h2 id="aboutheading" class="section-title">About</h2>
+        <p class="section-sub">Ph.D. in Literature turned Learning & Performance Consultant with 15+ years in enterprise L&D. I mix <b>instructional design</b>, <b>AI/automation</b>, and <b>design thinking</b> to build scalable programs that move business KPIs. I’ve led work across compliance, sales enablement, and knowledge management.</p>
+        <div class="cols">
+          <div>
+            <ul class="bullet">
+              <li>Strengths: Needs/performance analysis, experience design, prototyping, analytics, stakeholder facilitation.</li>
+              <li>Tooling: OpenAI API, Node.js, GitHub Pages, Articulate, Synthesia, Figma, Google Suite.</li>
+              <li>Focus areas: AI adoption, just‑in‑time support, simulation‑based practice, measurable outcomes.</li>
+            </ul>
+          </div>
+          <div>
+            <div class="stat"><b>2</b> Flagship showcases (ACE, SIMPLE)</div>
+            <div class="stat" style="margin-top:12px"><b>15+ yrs</b> Learning & Development experience</div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- CONTACT -->
+    <section id="contact" class="contact wrap" aria-labelledby="contactheading">
+      <h2 id="contactheading" class="section-title">Get in touch</h2>
+      <p class="section-sub">Open to contract or full‑time roles in experience design, learning strategy, and AI‑enabled performance solutions.</p>
+      <div class="cards">
+        <a href="mailto:miduco@gmail.com" aria-label="Email Michael">Email Michael</a>
+        <a href="https://www.linkedin.com/in/mikecolemansf" target="_blank" rel="noopener" aria-label="View Michael on LinkedIn">LinkedIn</a>
+      </div>
+    </section>
+  </main>
+
+  <footer>
+    <div class="wrap">© <span id="year"></span> Michael Coleman — Built with HTML/CSS on GitHub Pages</div>
+  </footer>
+
+  <script>
+    function toggleDrawer(){
+      const el = document.getElementById('drawer');
+      const open = el.classList.toggle('open');
+      el.setAttribute('aria-hidden', String(!open));
+    }
+    document.getElementById('year').textContent = new Date().getFullYear();
+  </script>
+</body>
+</html>
