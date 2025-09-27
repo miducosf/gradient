@@ -121,6 +121,50 @@
 
     /* Footer */
     footer{padding:30px 20px;color:#6b7280;text-align:center}
+
+    /* === QUICK HEADER FIX PACK === */
+header { position: sticky; top: 0; z-index: 50; }
+
+/* Use a 3-column grid so brand | menu | CTA stay on one line */
+.nav{
+  max-width: 1200px;
+  margin: 0 auto;
+  display: grid;
+  grid-template-columns: auto 1fr auto;
+  align-items: center;
+  gap: 16px;
+  padding: 14px 20px;
+}
+.nav > * { min-width: 0; } /* prevents odd wrapping */
+
+/* Center the menu, keep items from wrapping */
+.menu{ display: flex; justify-content: center; gap: 20px; white-space: nowrap; }
+
+/* Keep the buttons on the right */
+.cta{ display: flex; justify-content: flex-end; gap: 10px; }
+
+/* Hide hamburger + drawer on desktop */
+.hamburger{ display: none; }
+.drawer{ display: none; }
+
+/* Make the LinkedIn SVG inherit the current text color */
+.menu .icon-link svg { width: 20px; height: 20px; display: block; fill: currentColor; }
+
+/* Mobile rules (unchanged) */
+@media (max-width: 840px){
+  .menu{ display: none; }
+  .hamburger{ display: block; background: none; border: none; font-size: 26px; }
+  .drawer{
+    position: fixed; inset: 0 0 auto auto; width: min(86%, 320px); height: 100vh;
+    background: white; box-shadow: 0 10px 25px rgba(2,8,23,.08);
+    transform: translateX(100%); transition: transform .3s ease;
+    display: flex; flex-direction: column; padding: 20px; gap: 8px;
+  }
+  .drawer.open{ transform: translateX(0); }
+  .drawer a{ padding: 12px 10px; border-radius: 10px; }
+  .drawer .sep{ height: 1px; background: #e2e8f0; margin: 10px 0; }
+}
+
   </style>
 </head>
 <body>
