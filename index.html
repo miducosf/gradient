@@ -210,6 +210,28 @@
         --projects-top-gap: 22px;
       }
     }
+
+/* ——— Contact tweaks ——— */
+
+/* 1) Remove the divider line */
+#contact{
+  border-top: none; /* overrides the subtle white divider */
+}
+
+/* 2) Lighten the buttons/cards (keep light text) */
+.contact .cards a{
+  background: rgba(255,255,255,.18);   /* was .08 */
+  border-color: rgba(255,255,255,.35); /* a bit brighter */
+}
+.contact .cards a:hover{
+  background: rgba(255,255,255,.26);
+}
+
+/* Optional: add a gentle glow on hover for affordance */
+.contact .cards a:hover{
+  box-shadow: 0 8px 28px rgba(2,8,23,.25);
+}
+    
   </style>
 
   <!-- Schema.org: Person -->
