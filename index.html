@@ -12,10 +12,12 @@
     :root{
       --primary:#0ea5e9; /* sky-500 */
       --primary-dark:#0284c7; /* sky-600 */
-      --bg:#0b1020; /* deep blue for hero */
+      --bg:#0b1020; /* deep blue for hero + header */
+      --bg-2:#0e172a; /* deeper blend for hero gradient */
       --surface:#ffffff;
       --text:#0f172a; /* slate-900 */
       --muted:#475569; /* slate-600 */
+      --muted-light:#b6c5df; /* for dark surfaces */
       --ring: rgba(14,165,233,.35);
       --radius: 16px;
       --shadow: 0 10px 25px rgba(2,8,23,.08);
@@ -26,42 +28,103 @@
     a{color:inherit;text-decoration:none}
     img{max-width:100%;display:block}
 
-    /* Header */
-    header{position:sticky;top:0;z-index:50;background:rgba(14,165,233,.20);backdrop-filter:saturate(180%) blur(10px);border-bottom:1px solid #e2e8f0}
-    /* rgba(255,255,255,.85) */
+    /* Header (now dark like the hero top) */
+    header{
+      position:sticky;top:0;z-index:50;
+      background:var(--bg);
+      backdrop-filter:saturate(160%) blur(6px);
+      border-bottom:1px solid rgba(255,255,255,.06);
+      color:#eaf2ff;
+    }
     .nav{max-width:var(--maxw);margin:0 auto;display:flex;align-items:center;justify-content:space-between;padding:14px 20px}
-    .brand{display:flex;align-items:center;gap:12px;font-weight:700}
-    .brand .dot{width:10px;height:10px;border-radius:50%;background:var(--primary)}
-    .tag{font-weight:500;color:var(--muted);font-size:.95rem}
+    .brand{display:flex;align-items:center;gap:12px;font-weight:700;letter-spacing:.2px}
+    .brand .dot{width:10px;height:10px;border-radius:50%;background:linear-gradient(135deg,var(--primary),#7dd3fc)}
+    .brand .name{display:flex;align-items:center;gap:8px}
+    .brand .phd{
+      font-weight:600;
+      font-size:.78rem;
+      letter-spacing:.06em;
+      color:var(--muted-light);
+      padding:2px 8px;
+      border:1px solid rgba(255,255,255,.18);
+      border-radius:999px;
+      background:rgba(255,255,255,.06);
+      transform:translateY(-1px);
+    }
     .menu{display:flex;gap:20px;align-items:center}
-    .menu a{padding:8px 12px;border-radius:10px}
-    .menu a:hover{background:#eaf6fe}
+    .menu a{
+      padding:8px 12px;border-radius:10px;
+      color:#eaf2ff;
+    }
+    .menu a:hover{background:rgba(255,255,255,.08)}
     .cta{display:flex;gap:10px;align-items:center}
-    .btn{display:inline-flex;align-items:center;justify-content:center;padding:10px 16px;border-radius:12px;font-weight:600;border:1px solid #cbe7fb;background:white}
-    .btn.primary{background:var(--primary);border-color:var(--primary);color:white}
-    .btn.primary:hover{background:var(--primary-dark);border-color:var(--primary-dark)}
+    header .btn{
+      display:inline-flex;align-items:center;justify-content:center;
+      padding:10px 14px;border-radius:12px;font-weight:600;
+      border:1px solid rgba(255,255,255,.20);
+      color:#eaf2ff;background:transparent;
+    }
+    header .btn:hover{background:rgba(255,255,255,.10)}
+    header .btn.primary{
+      border-color:var(--primary); background:var(--primary); color:white;
+    }
+    header .btn.primary:hover{background:var(--primary-dark);border-color:var(--primary-dark)}
     .btn:focus{outline:3px solid var(--ring);outline-offset:2px}
 
     .drawer{display:none}
-    
+
     /* Mobile nav */
-    .hamburger{display:none;background:none;border:none;font-size:26px}
+    .hamburger{display:none;background:none;border:none;font-size:26px;color:#eaf2ff}
     @media (max-width: 840px){
       .menu{display:none}
       .hamburger{display:block}
-      .drawer{position:fixed;inset:0 0 auto auto;width:min(86%,320px);height:100vh;background:white;box-shadow:var(--shadow);transform:translateX(100%);transition:transform .3s ease;display:flex;flex-direction:column;padding:20px;gap:8px}
+      .drawer{
+        position:fixed;inset:0 0 auto auto;width:min(86%,320px);height:100vh;
+        background:var(--bg);box-shadow:var(--shadow);
+        transform:translateX(100%);transition:transform .3s ease;
+        display:flex;flex-direction:column;padding:20px;gap:8px;color:#eaf2ff
+      }
       .drawer.open{transform:translateX(0)}
       .drawer a{padding:12px 10px;border-radius:10px}
-      .drawer .sep{height:1px;background:#e2e8f0;margin:10px 0}
+      .drawer a:hover{background:rgba(255,255,255,.10)}
+      .drawer .sep{height:1px;background:rgba(255,255,255,.10);margin:10px 0}
     }
 
-    /* Hero */
-    .hero{background:linear-gradient(180deg, rgba(14,165,233,.20), rgba(14,165,233,0) 55%), linear-gradient(180deg, var(--bg), #0e172a 40%, #f7fafc 100%);color:#eaf2ff}
+    /* Hero (unchanged palette, but now 2-col with photo) */
+    .hero{
+      background:
+        linear-gradient(180deg, rgba(14,165,233,.18), rgba(14,165,233,0) 55%),
+        linear-gradient(180deg, var(--bg), var(--bg-2) 40%, #f7fafc 100%);
+      color:#eaf2ff;
+    }
     .hero-wrap{max-width:var(--maxw);margin:0 auto;padding:80px 20px 40px}
+    .hero-inner{display:grid;grid-template-columns: 1.2fr .8fr;gap:28px;align-items:center}
     .kicker{letter-spacing:.12em;color:#b6dfff;font-weight:600;text-transform:uppercase;font-size:.85rem}
     .h1{font-size:clamp(32px,5.5vw,54px);line-height:1.1;margin:.35em 0 .2em;font-weight:800}
     .sub{max-width:810px;color:#d8e8ff}
     .hero-cta{margin-top:20px;display:flex;gap:12px;flex-wrap:wrap}
+    .hero-cta .tag{font-weight:500;color:#cfe3ff;font-size:.95rem}
+
+    /* Hero photo */
+    .hero-photo{
+      justify-self:end; align-self:center;
+      width:min(320px, 42vw); aspect-ratio:1/1; border-radius:22px; overflow:hidden;
+      box-shadow:0 20px 50px rgba(2,8,23,.45), inset 0 0 0 1px rgba(255,255,255,.08);
+      position:relative;
+      background:radial-gradient(120px 120px at 80% 15%, rgba(14,165,233,.22), transparent 60%);
+    }
+    .hero-photo::after{
+      /* soft ring */
+      content:""; position:absolute; inset:-6px; border-radius:26px;
+      border:2px solid rgba(125,211,252,.35); pointer-events:none;
+      filter:blur(.5px);
+    }
+    .hero-photo img{width:100%; height:100%; object-fit:cover; object-position:50% 40%}
+
+    @media (max-width: 900px){
+      .hero-inner{grid-template-columns:1fr; gap:22px}
+      .hero-photo{justify-self:center; width:min(360px, 70vw)}
+    }
 
     /* Section shells */
     section{padding:60px 20px}
@@ -81,7 +144,6 @@
     .bullet{margin:10px 0 2px;padding-left:20px}
     .bullet li{margin:6px 0}
     .card .actions{margin-top:auto;padding:0 18px 18px;display:flex;gap:10px}
-
     @media (max-width: 940px){.card{grid-column:span 12}}
 
     /* About */
@@ -101,56 +163,58 @@
     footer{padding:30px 20px;color:#6b7280;text-align:center}
   </style>
 
-<!-- Schema.org: Person -->
-<script type="application/ld+json">
-{
-  "@context": "https://schema.org",
-  "@type": "Person",
-  "name": "Michael Coleman, Ph.D.",
-  "jobTitle": "AI-Forward Learning & Performance Consultant",
-  "url": "https://miducosf.github.io/design/",
-  "image": "https://miducosf.github.io/design/assets/michael-portrait.jpg",
-  "sameAs": ["https://www.linkedin.com/in/mikecolemansf"],
-  "knowsAbout": [
-    "Instructional Design",
-    "Learning Experience Design",
-    "Sales Enablement",
-    "Compliance Training",
-    "AI in Learning",
-    "Knowledge Management"
-  ],
-  "workExample": [
-    {
-      "@type": "CreativeWork",
-      "name": "ACE — Assistant for Compliance Excellence",
-      "url": "https://miducosf.github.io/design/projects/ace/index.html"
-    },
-    {
-      "@type": "CreativeWork",
-      "name": "SIMPLE — Sales Client Communication CYOA",
-      "url": "https://miducosf.github.io/design/projects/simple2/index.html"
-    }
-  ],
-  "description": "Portfolio of AI-forward learning and performance work, featuring ACE and SIMPLE."
-}
-</script>
-
-  
+  <!-- Schema.org: Person -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "Person",
+    "name": "Michael Coleman, Ph.D.",
+    "jobTitle": "AI-Forward Learning & Performance Consultant",
+    "url": "https://miducosf.github.io/design/",
+    "image": "https://miducosf.github.io/design/assets/michael-portrait.jpg",
+    "sameAs": ["https://www.linkedin.com/in/mikecolemansf"],
+    "knowsAbout": [
+      "Instructional Design",
+      "Learning Experience Design",
+      "Sales Enablement",
+      "Compliance Training",
+      "AI in Learning",
+      "Knowledge Management"
+    ],
+    "workExample": [
+      {
+        "@type": "CreativeWork",
+        "name": "ACE — Assistant for Compliance Excellence",
+        "url": "https://miducosf.github.io/design/projects/ace/index.html"
+      },
+      {
+        "@type": "CreativeWork",
+        "name": "SIMPLE — Sales Client Communication CYOA",
+        "url": "https://miducosf.github.io/design/projects/simple2/index.html"
+      }
+    ],
+    "description": "Portfolio of AI-forward learning and performance work, featuring ACE and SIMPLE."
+  }
+  </script>
 </head>
 <body>
   <header>
     <nav class="nav" aria-label="Main">
-      <div class="brand"><span class="dot" aria-hidden="true"></span> Michael Coleman, Ph.D.</div>
+      <div class="brand">
+        <span class="dot" aria-hidden="true"></span>
+        <div class="name">
+          <span>Michael Coleman</span>
+          <span class="phd" aria-label="Doctor of Philosophy">Ph.D.</span>
+        </div>
+      </div>
       <button class="hamburger" aria-label="Open menu" onclick="toggleDrawer()">☰</button>
       <div class="menu" role="menubar">
         <a href="#projects" role="menuitem">Projects</a>
-        <!-- Update this href to your actual PDF path -->
         <a href="/design/assets/Michael-Coleman-Resume.pdf" role="menuitem">Resume</a>
         <a href="#about" role="menuitem">About</a>
         <a href="#contact" role="menuitem">Contact</a>
       </div>
       <div class="cta">
-        <!-- Replace the old "View Portfolio" with a direct resume link -->
         <a class="btn" href="#projects">Explore Projects</a>
         <a class="btn primary" href="/design/assets/Michael-Coleman-Resume.pdf">View Resume</a>
       </div>
@@ -168,13 +232,21 @@
     <!-- HERO -->
     <section class="hero" aria-labelledby="heroheading">
       <div class="hero-wrap">
-        <div class="kicker">AI‑Forward Learning & Performance Strategist</div>
-        <h1 id="heroheading" class="h1">Designing smart, scalable learning that drives adoption & growth.</h1>
-        <p class="sub">I’m an AI‑forward Learning & Performance Consultant blending instructional design, analytics, and modern tooling to solve real business problems. Featured below: <b>ACE</b> (an AI compliance mentor) and <b>SIMPLE</b> (a sales communication simulation).</p>
-        <div class="hero-cta">
-          <a class="btn primary" href="/design/assets/Michael-Coleman-Resume.pdf">View Resume</a>
-          <a class="btn" href="#projects">Explore Projects</a>
-          <span class="tag">Instructional Design • Learning Experience Design • AI/Automation</span>
+        <div class="hero-inner">
+          <div class="hero-copy">
+            <div class="kicker">AI-Forward Learning & Performance Strategist</div>
+            <h1 id="heroheading" class="h1">Designing smart, scalable learning that drives adoption & growth.</h1>
+            <p class="sub">I’m an AI-forward Learning & Performance Consultant blending instructional design, analytics, and modern tooling to solve real business problems. Featured below: <b>ACE</b> (an AI compliance mentor) and <b>SIMPLE</b> (a sales communication simulation).</p>
+            <div class="hero-cta">
+              <a class="btn primary" href="/design/assets/Michael-Coleman-Resume.pdf">View Resume</a>
+              <a class="btn" href="#projects">Explore Projects</a>
+              <span class="tag">Instructional Design • Learning Experience Design • AI/Automation</span>
+            </div>
+          </div>
+          <figure class="hero-photo" aria-label="Portrait of Michael Coleman">
+            <!-- Swap the src if your portrait lives elsewhere -->
+            <img src="/design/assets/michael-portrait.jpg" alt="Michael Coleman portrait" loading="eager" fetchpriority="high">
+          </figure>
         </div>
       </div>
     </section>
@@ -188,7 +260,6 @@
         <!-- ACE -->
         <article class="card" aria-labelledby="ace-title">
           <div class="card-media">
-            <!-- Replace with a real cover image, e.g., /design/projects/ace/assets/cover.png -->
             <img src="https://picsum.photos/800/450?random=11" alt="ACE project cover image placeholder" />
           </div>
           <div class="card-body">
@@ -199,10 +270,10 @@
               <span class="chip">Node.js</span>
             </div>
             <h3 id="ace-title">ACE — Assistant for Compliance Excellence</h3>
-            <p class="meta">Just‑in‑time guidance, process navigation, and quiz reinforcement for regulated workflows.</p>
+            <p class="meta">Just-in-time guidance, process navigation, and quiz reinforcement for regulated workflows.</p>
             <ul class="bullet">
               <li><b>Problem:</b> Compliance content is dense; learners need faster answers during the flow of work.</li>
-              <li><b>Solution:</b> AI mentor that adapts guidance by user experience and offers step‑by‑step help + micro‑quizzes.</li>
+              <li><b>Solution:</b> AI mentor that adapts guidance by user experience and offers step-by-step help + micro-quizzes.</li>
               <li><b>Results:</b> Faster task completion in tests; strong stakeholder feedback on usability and scalability.</li>
             </ul>
           </div>
@@ -215,7 +286,6 @@
         <!-- SIMPLE -->
         <article class="card" aria-labelledby="simple-title">
           <div class="card-media">
-            <!-- Replace with a real cover image, e.g., /design/projects/simple2/assets/cover.png -->
             <img src="https://picsum.photos/800/450?random=22" alt="SIMPLE project cover image placeholder" />
           </div>
           <div class="card-body">
@@ -226,7 +296,7 @@
               <span class="chip">Feedback Coach</span>
             </div>
             <h3 id="simple-title">SIMPLE — Sales Client Communication CYOA</h3>
-            <p class="meta">Branching video with scenario realism and a mentor panel that gives real‑time, actionable feedback.</p>
+            <p class="meta">Branching video with scenario realism and a mentor panel that gives real-time, actionable feedback.</p>
             <ul class="bullet">
               <li><b>Problem:</b> Reps struggle to practice nuanced client conversations in a safe, realistic way.</li>
               <li><b>Solution:</b> CYOA simulation with video prompts, clickable decision paths, and targeted coaching.</li>
@@ -235,7 +305,6 @@
           </div>
           <div class="actions">
             <a class="btn" href="/design/projects/simple2/index.html">View Case Study</a>
-            <!-- Add a live prototype link if/when available -->
           </div>
         </article>
       </div>
@@ -251,7 +320,7 @@
             <ul class="bullet">
               <li>Strengths: Needs/performance analysis, experience design, prototyping, analytics, stakeholder facilitation.</li>
               <li>Tooling: OpenAI API, Node.js, GitHub Pages, Articulate, Synthesia, Figma, Google Suite.</li>
-              <li>Focus areas: AI adoption, just‑in‑time support, simulation‑based practice, measurable outcomes.</li>
+              <li>Focus areas: AI adoption, just-in-time support, simulation-based practice, measurable outcomes.</li>
             </ul>
           </div>
           <div>
@@ -265,7 +334,7 @@
     <!-- CONTACT -->
     <section id="contact" class="contact wrap" aria-labelledby="contactheading">
       <h2 id="contactheading" class="section-title">Get in touch</h2>
-      <p class="section-sub">Open to contract or full‑time roles in experience design, learning strategy, and AI‑enabled performance solutions.</p>
+      <p class="section-sub">Open to contract or full-time roles in experience design, learning strategy, and AI-enabled performance solutions.</p>
       <div class="cards">
         <a href="mailto:miduco@gmail.com" aria-label="Email Michael">Email Michael</a>
         <a href="https://www.linkedin.com/in/mikecolemansf" target="_blank" rel="noopener" aria-label="View Michael on LinkedIn">LinkedIn</a>
