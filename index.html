@@ -8,121 +8,122 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
+
   <style>
     :root{
-      --primary:#0ea5e9; /* sky-500 */
-      --primary-dark:#0284c7; /* sky-600 */
-      --bg:#0b1020; /* deep blue for hero + header */
-      --bg-2:#0e172a; /* deeper blend for hero gradient */
+      --primary:#0ea5e9;         /* sky-500 */
+      --primary-dark:#0284c7;    /* sky-600 */
+      --bg:#0b1020;              /* deep blue for hero + header */
+      --bg-2:#0e172a;            /* deeper blend for hero gradient */
       --surface:#ffffff;
-      --text:#0f172a; /* slate-900 */
-      --muted:#475569; /* slate-600 */
-      --muted-light:#b6c5df; /* for dark surfaces */
+      --text:#0f172a;            /* slate-900 */
+      --muted:#475569;           /* slate-600 */
+      --muted-light:#b6c5df;     /* for dark surfaces */
       --ring: rgba(14,165,233,.35);
       --radius: 16px;
       --shadow: 0 10px 25px rgba(2,8,23,.08);
       --maxw: 1200px;
+
+      /* Spacing knobs */
+      --hero-top-gap: 48px;
+      --hero-bottom-gap: 24px;
+      --projects-top-gap: 28px;
+
+      /* Nav sizing */
+      --nav-breakpoint: 1024px; /* one knob to rule them all */
     }
+
     *{box-sizing:border-box}
     body{font-family:'Poppins',system-ui,-apple-system,Segoe UI,Roboto,Helvetica,Arial,sans-serif;color:var(--text);background:#f7fafc;line-height:1.6}
     a{color:inherit;text-decoration:none}
     img{max-width:100%;display:block}
 
-   /* Header (exact top-of-hero color) */
-header{
-  position:sticky; top:0; z-index:50;
-  /* Fallback for older browsers */
-  background:#0c2b44;
-  /* Dynamic match: 82% bg + 18% primary == rgba(primary, .18) over bg */
-  background:color-mix(in srgb, var(--bg) 82%, var(--primary) 18%);
-  backdrop-filter:saturate(160%) blur(6px);
-  border-bottom:1px solid rgba(255,255,255,.06);
-  color:#eaf2ff;
-}
+    /* Improve anchor jump under sticky header */
+    html{ scroll-padding-top: calc(var(--nav-h, 64px) + 12px); }
 
-
+    /* Header (exact top-of-hero color) */
+    header{
+      position:sticky; top:0; z-index:50;
+      /* Fallback for older browsers */
+      background:#0c2b44;
+      /* 82% bg + 18% primary == rgba(primary,.18) over bg */
+      background:color-mix(in srgb, var(--bg) 82%, var(--primary) 18%);
+      backdrop-filter:saturate(160%) blur(6px);
+      border-bottom:1px solid rgba(255,255,255,.06);
+      color:#eaf2ff;
+    }
     .nav{max-width:var(--maxw);margin:0 auto;display:flex;align-items:center;justify-content:space-between;padding:14px 20px}
     .brand{display:flex;align-items:center;gap:12px;font-weight:700;letter-spacing:.2px}
     .brand .dot{width:10px;height:10px;border-radius:50%;background:linear-gradient(135deg,var(--primary),#7dd3fc)}
     .brand .name{display:flex;align-items:center;gap:8px}
     .brand .phd{
-      font-weight:600;
-      font-size:.78rem;
-      letter-spacing:.06em;
+      font-weight:600;font-size:.78rem;letter-spacing:.06em;
       color:var(--muted-light);
-      padding:2px 8px;
-      border:1px solid rgba(255,255,255,.18);
-      border-radius:999px;
-      background:rgba(255,255,255,.06);
+      padding:2px 8px;border:1px solid rgba(255,255,255,.18);
+      border-radius:999px;background:rgba(255,255,255,.06);
       transform:translateY(-1px);
     }
     .menu{display:flex;gap:20px;align-items:center}
-    .menu a{
-      padding:8px 12px;border-radius:10px;
-      color:#eaf2ff;
-    }
+    .menu a{padding:8px 12px;border-radius:10px;color:#eaf2ff}
     .menu a:hover{background:rgba(255,255,255,.08)}
     .cta{display:flex;gap:10px;align-items:center}
     header .btn{
       display:inline-flex;align-items:center;justify-content:center;
-      padding:6px 14px;border-radius:12px;font-weight:600; /* button thickness */
+      padding:6px 14px;border-radius:12px;font-weight:600;
       border:1px solid rgba(255,255,255,.20);
       color:#eaf2ff;background:transparent;
     }
     header .btn:hover{background:rgba(255,255,255,.10)}
-    header .btn.primary{
-      border-color:var(--primary); background:var(--primary); color:white;
-    }
+    header .btn.primary{border-color:var(--primary); background:var(--primary); color:white}
     header .btn.primary:hover{background:var(--primary-dark);border-color:var(--primary-dark)}
     .btn:focus{outline:3px solid var(--ring);outline-offset:2px}
 
-   .drawer{display:none}
-    
-   /* Mobile drawer */
-@media (max-width: 1024px){
-  .drawer{
-    position:fixed; inset:0 0 auto auto; width:min(86%,320px); height:100vh;
-    /* Fallback + dynamic match, same as header */
-    background:#0c2b44;
-    background:color-mix(in srgb, var(--bg) 82%, var(--primary) 18%);
-    box-shadow:var(--shadow);
-    transform:translateX(100%); transition:transform .3s ease;
-    display:flex; flex-direction:column; padding:20px; gap:8px; color:#eaf2ff;
-  }
-  .drawer a:hover{background:rgba(255,255,255,.10)}
-  .drawer .sep{height:1px; background:rgba(255,255,255,.10); margin:10px 0}
-}
+    .drawer{display:none}
+    .drawer.open{ transform: translateX(0); }
+    .hamburger{display:none;background:none;border:none;font-size:26px;color:#eaf2ff}
 
     /* Mobile nav */
-    .hamburger{display:none;background:none;border:none;font-size:26px;color:#eaf2ff}
-    @media (max-width: 840px){
+    @media (max-width: 1024px){
       .menu{display:none}
       .hamburger{display:block}
       .drawer{
-        position:fixed;inset:0 0 auto auto;width:min(86%,320px);height:100vh;
-        background:var(--bg);box-shadow:var(--shadow);
-        transform:translateX(100%);transition:transform .3s ease;
-        display:flex;flex-direction:column;padding:20px;gap:8px;color:#eaf2ff
+        position:fixed; inset:0 0 auto auto; width:min(86%,320px); height:100vh;
+        z-index:60;
+        /* Fallback + dynamic match, same as header */
+        background:#0c2b44;
+        background:color-mix(in srgb, var(--bg) 82%, var(--primary) 18%);
+        box-shadow:var(--shadow);
+        transform:translateX(100%); transition:transform .3s ease;
+        display:flex; flex-direction:column; padding:20px; gap:8px; color:#eaf2ff;
       }
-      .drawer.open{transform:translateX(0)}
       .drawer a{padding:12px 10px;border-radius:10px}
       .drawer a:hover{background:rgba(255,255,255,.10)}
-      .drawer .sep{height:1px;background:rgba(255,255,255,.10);margin:10px 0}
+      .drawer .sep{height:1px; background:rgba(255,255,255,.10); margin:10px 0}
     }
 
-    /* Hero (unchanged palette, but now 2-col with photo) */
+    /* Scrim/backdrop for outside-click close */
+    .scrim{
+      position: fixed; inset: 0;
+      background: rgba(0,0,0,.35);
+      opacity: 0; pointer-events: none;
+      transition: opacity .2s ease;
+      z-index: 49; /* just below header & drawer */
+    }
+    .scrim.show{ opacity: 1; pointer-events: auto; }
+
+    /* Hero */
     .hero{
       background:
         linear-gradient(180deg, rgba(14,165,233,.18), rgba(14,165,233,0) 55%),
         linear-gradient(180deg, var(--bg), var(--bg-2) 40%, #f7fafc 100%);
       color:#eaf2ff;
     }
-    .hero-wrap{max-width:var(--maxw);margin:0 auto;padding:60px 20px 40px}
+    .hero-wrap{max-width:var(--maxw);margin:0 auto;padding:var(--hero-top-gap) 20px var(--hero-bottom-gap)}
     .hero-inner{display:grid;grid-template-columns: 1.2fr .8fr;gap:28px;align-items:center}
     .kicker{letter-spacing:.12em;color:#b6dfff;font-weight:600;text-transform:uppercase;font-size:.85rem}
-    .h1{font-size:clamp(32px,5.5vw,54px);line-height:1.1;margin:.35em 0 .2em;font-weight:800}
+    .h1{font-size:clamp(32px,5.5vw,54px);line-height:1.1;margin:.25em 0 .2em;font-weight:800}
     .sub{max-width:810px;color:#d8e8ff}
-    .hero-cta{margin-top:20px;display:flex;gap:12px;flex-wrap:wrap}
+    .hero-cta{margin-top:16px;display:flex;gap:12px;flex-wrap:wrap}
     .hero-cta .tag{font-weight:500;color:#cfe3ff;font-size:.95rem}
 
     /* Hero photo */
@@ -134,10 +135,8 @@ header{
       background:radial-gradient(120px 120px at 80% 15%, rgba(14,165,233,.22), transparent 60%);
     }
     .hero-photo::after{
-      /* soft ring */
       content:""; position:absolute; inset:-6px; border-radius:26px;
-      border:2px solid rgba(125,211,252,.35); pointer-events:none;
-      filter:blur(.5px);
+      border:2px solid rgba(125,211,252,.35); pointer-events:none; filter:blur(.5px);
     }
     .hero-photo img{width:100%; height:100%; object-fit:cover; object-position:50% 40%}
 
@@ -146,13 +145,14 @@ header{
       .hero-photo{justify-self:center; width:min(360px, 70vw)}
     }
 
-    /* Section shells */
+    /* Sections */
     section{padding:60px 20px}
     .wrap{max-width:var(--maxw);margin:0 auto}
     .section-title{font-size:clamp(22px,3.2vw,32px);margin-bottom:16px}
     .section-sub{color:var(--muted);max-width:820px}
 
     /* Projects */
+    #projects{ padding-top: var(--projects-top-gap); }
     .grid{display:grid;grid-template-columns:repeat(12,1fr);gap:22px;margin-top:10px}
     .card{grid-column:span 6;background:var(--surface);border-radius:var(--radius);box-shadow:var(--shadow);overflow:hidden;border:1px solid #e2e8f0;display:flex;flex-direction:column}
     .card-media{aspect-ratio:16/9;background:#e6f5fe;display:flex;align-items:center;justify-content:center}
@@ -173,55 +173,43 @@ header{
     .stat b{display:block;font-size:1.4rem}
     @media (max-width: 900px){.about .cols{grid-template-columns:1fr}}
 
-    /* Contact */
+    /* Contact (reverse hero gradient + light text) */
+    #contact{
+      background:
+        /* faint primary tint rising upward */
+        linear-gradient(0deg, rgba(14,165,233,.18), rgba(14,165,233,0) 55%),
+        /* deep-to-light rising upward */
+        linear-gradient(0deg, var(--bg), var(--bg-2) 40%, #f7fafc 100%);
+      color:#eaf2ff;
+      border-top:1px solid rgba(255,255,255,.06);
+    }
+    #contact .section-sub{ color:#cfe3ff; }
+    #contact a{ color:#eaf2ff; }
+
     .contact .cards{display:grid;grid-template-columns:repeat(12,1fr);gap:22px;margin-top:18px}
-    .contact .cards a{grid-column:span 6;border:1px solid #e2e8f0;background:white;border-radius:var(--radius);padding:18px;box-shadow:var(--shadow);display:flex;align-items:center;justify-content:center;font-weight:600}
-    .contact .cards a:hover{background:#f3fbff}
+    .contact .cards a{
+      grid-column:span 6;
+      border:1px solid rgba(255,255,255,.20);
+      background: rgba(255,255,255,.08);
+      backdrop-filter: saturate(140%) blur(2px);
+      border-radius:var(--radius);
+      padding:18px; box-shadow:var(--shadow);
+      display:flex; align-items:center; justify-content:center; font-weight:600;
+    }
+    .contact .cards a:hover{ background: rgba(255,255,255,.12); }
     @media (max-width: 900px){.contact .cards a{grid-column:span 12}}
 
     /* Footer */
     footer{padding:30px 20px;color:#6b7280;text-align:center}
 
-    /* Reduce top padding + trim heading margin */
-:root { --hero-top-gap: 10px; } 
-
-.hero-wrap { padding: var(--hero-top-gap) 10px 20px; }
-.h1 { margin-top: .03em; }     
-
-/* Slightly tighter on smaller screens */
-@media (max-width: 900px){
-  :root { --hero-top-gap: 5px; }
-}
-
-
-    /* ——— Tighter seam between Hero and Projects ——— */
-:root{
-  /* tweak these numbers to taste */
-  --hero-bottom-gap: 24px;     /* was 40px */
-  --projects-top-gap: 28px;    /* was 60px via `section` default */
-}
-
-/* Reduce bottom padding of the hero */
-.hero-wrap{
-  padding-bottom: var(--hero-bottom-gap);
-}
-
-/* Reduce top padding of the Projects section only */
-#projects{
-  padding-top: var(--projects-top-gap);
-}
-
-/* Optional: slightly tighter CTA spacing inside hero */
-.hero-cta{ margin-top: 14px; }
-
-/* Mobile: a touch tighter */
-@media (max-width: 900px){
-  :root{
-    --hero-bottom-gap: 20px;
-    --projects-top-gap: 22px;
-  }
-}
-
+    /* Mobile tweaks */
+    @media (max-width: 900px){
+      :root{
+        --hero-top-gap: 40px;
+        --hero-bottom-gap: 20px;
+        --projects-top-gap: 22px;
+      }
+    }
   </style>
 
   <!-- Schema.org: Person -->
@@ -268,7 +256,7 @@ header{
           <span class="phd" aria-label="Doctor of Philosophy">Ph.D.</span>
         </div>
       </div>
-      <button class="hamburger" aria-label="Open menu" onclick="toggleDrawer()">☰</button>
+      <button id="hamburger" class="hamburger" aria-label="Open menu" onclick="toggleDrawer()">☰</button>
       <div class="menu" role="menubar">
         <a href="#projects" role="menuitem">Projects</a>
         <a href="#about" role="menuitem">About</a>
@@ -279,13 +267,16 @@ header{
       </div>
     </nav>
     <div class="drawer" id="drawer" aria-hidden="true">
-       <a href="/design/assets/Michael-Coleman-Resume.pdf" onclick="toggleDrawer()">Resume</a>
+      <a href="/design/assets/Michael-Coleman-Resume.pdf" onclick="toggleDrawer()">Resume</a>
       <a href="#projects" onclick="toggleDrawer()">Projects</a>
       <div class="sep"></div>
       <a href="#about" onclick="toggleDrawer()">About</a>
       <a href="#contact" onclick="toggleDrawer()">Contact</a>
     </div>
   </header>
+
+  <!-- Clickable backdrop for outside-click close -->
+  <div id="scrim" class="scrim" hidden></div>
 
   <main>
     <!-- HERO -->
@@ -297,74 +288,76 @@ header{
             <h1 id="heroheading" class="h1">Designing smart, scalable learning that drives adoption & growth.</h1>
             <p class="sub">I’m an AI-forward Learning & Performance Consultant blending instructional design, analytics, and modern tooling to solve real business problems. Featured below: <b>ACE</b> (an AI compliance mentor) and <b>SIMPLE</b> (a sales communication simulation).</p>
             <div class="hero-cta">
-              <a class="btn primary" href="/assets/michael_portrait.png">View Resume</a>
+              <a class="btn primary" href="/design/assets/Michael-Coleman-Resume.pdf">View Resume</a>
               <a class="btn" href="#projects">Explore Projects</a>
               <span class="tag">Instructional Design • Learning Experience Design • AI/Automation</span>
             </div>
           </div>
           <figure class="hero-photo" aria-label="Portrait of Michael Coleman">
-            <img src="assets/michael_portrait.png" alt="Michael Coleman portrait" loading="eager" fetchpriority="high">
+            <img src="/design/assets/michael-portrait.jpg" alt="Michael Coleman portrait" loading="eager" fetchpriority="high">
           </figure>
         </div>
       </div>
     </section>
 
     <!-- PROJECTS -->
-    <section id="projects" class="wrap" aria-labelledby="projectsheading">
-      <h2 class="section-title" id="projectsheading">Featured Projects</h2>
-      <p class="section-sub">Two focused showcases that demonstrate strategy, craft, and measurable impact. Each page follows a <b>Problem → Solution → Results</b> flow with clear visuals and artifacts.</p>
+    <section id="projects" aria-labelledby="projectsheading">
+      <div class="wrap">
+        <h2 class="section-title" id="projectsheading">Featured Projects</h2>
+        <p class="section-sub">Two focused showcases that demonstrate strategy, craft, and measurable impact. Each page follows a <b>Problem → Solution → Results</b> flow with clear visuals and artifacts.</p>
 
-      <div class="grid">
-        <!-- ACE -->
-        <article class="card" aria-labelledby="ace-title">
-          <div class="card-media">
-            <img src="https://picsum.photos/800/450?random=11" alt="ACE project cover image placeholder" />
-          </div>
-          <div class="card-body">
-            <div class="chiprow">
-              <span class="chip">AI Mentor</span>
-              <span class="chip">Compliance</span>
-              <span class="chip">OpenAI API</span>
-              <span class="chip">Node.js</span>
+        <div class="grid">
+          <!-- ACE -->
+          <article class="card" aria-labelledby="ace-title">
+            <div class="card-media">
+              <img src="https://picsum.photos/800/450?random=11" alt="ACE project cover image placeholder" />
             </div>
-            <h3 id="ace-title">ACE — Assistant for Compliance Excellence</h3>
-            <p class="meta">Just-in-time guidance, process navigation, and quiz reinforcement for regulated workflows.</p>
-            <ul class="bullet">
-              <li><b>Problem:</b> Compliance content is dense; learners need faster answers during the flow of work.</li>
-              <li><b>Solution:</b> AI mentor that adapts guidance by user experience and offers step-by-step help + micro-quizzes.</li>
-              <li><b>Results:</b> Faster task completion in tests; strong stakeholder feedback on usability and scalability.</li>
-            </ul>
-          </div>
-          <div class="actions">
-            <a class="btn" href="/design/projects/ace/index.html">View Case Study</a>
-            <a class="btn" href="https://ace-backend-lp1u.onrender.com" target="_blank" rel="noopener">Live Demo</a>
-          </div>
-        </article>
+            <div class="card-body">
+              <div class="chiprow">
+                <span class="chip">AI Mentor</span>
+                <span class="chip">Compliance</span>
+                <span class="chip">OpenAI API</span>
+                <span class="chip">Node.js</span>
+              </div>
+              <h3 id="ace-title">ACE — Assistant for Compliance Excellence</h3>
+              <p class="meta">Just-in-time guidance, process navigation, and quiz reinforcement for regulated workflows.</p>
+              <ul class="bullet">
+                <li><b>Problem:</b> Compliance content is dense; learners need faster answers during the flow of work.</li>
+                <li><b>Solution:</b> AI mentor that adapts guidance by user experience and offers step-by-step help + micro-quizzes.</li>
+                <li><b>Results:</b> Faster task completion in tests; strong stakeholder feedback on usability and scalability.</li>
+              </ul>
+            </div>
+            <div class="actions">
+              <a class="btn" href="/design/projects/ace/index.html">View Case Study</a>
+              <a class="btn" href="https://ace-backend-lp1u.onrender.com" target="_blank" rel="noopener">Live Demo</a>
+            </div>
+          </article>
 
-        <!-- SIMPLE -->
-        <article class="card" aria-labelledby="simple-title">
-          <div class="card-media">
-            <img src="https://picsum.photos/800/450?random=22" alt="SIMPLE project cover image placeholder" />
-          </div>
-          <div class="card-body">
-            <div class="chiprow">
-              <span class="chip">Sales Enablement</span>
-              <span class="chip">Branching Simulation</span>
-              <span class="chip">Synthesia</span>
-              <span class="chip">Feedback Coach</span>
+          <!-- SIMPLE -->
+          <article class="card" aria-labelledby="simple-title">
+            <div class="card-media">
+              <img src="https://picsum.photos/800/450?random=22" alt="SIMPLE project cover image placeholder" />
             </div>
-            <h3 id="simple-title">SIMPLE — Sales Client Communication CYOA</h3>
-            <p class="meta">Branching video with scenario realism and a mentor panel that gives real-time, actionable feedback.</p>
-            <ul class="bullet">
-              <li><b>Problem:</b> Reps struggle to practice nuanced client conversations in a safe, realistic way.</li>
-              <li><b>Solution:</b> CYOA simulation with video prompts, clickable decision paths, and targeted coaching.</li>
-              <li><b>Results:</b> Increased practice reps; clearer behaviors tied to performance metrics and CSAT.</li>
-            </ul>
-          </div>
-          <div class="actions">
-            <a class="btn" href="/design/projects/simple2/index.html">View Case Study</a>
-          </div>
-        </article>
+            <div class="card-body">
+              <div class="chiprow">
+                <span class="chip">Sales Enablement</span>
+                <span class="chip">Branching Simulation</span>
+                <span class="chip">Synthesia</span>
+                <span class="chip">Feedback Coach</span>
+              </div>
+              <h3 id="simple-title">SIMPLE — Sales Client Communication CYOA</h3>
+              <p class="meta">Branching video with scenario realism and a mentor panel that gives real-time, actionable feedback.</p>
+              <ul class="bullet">
+                <li><b>Problem:</b> Reps struggle to practice nuanced client conversations in a safe, realistic way.</li>
+                <li><b>Solution:</b> CYOA simulation with video prompts, clickable decision paths, and targeted coaching.</li>
+                <li><b>Results:</b> Increased practice reps; clearer behaviors tied to performance metrics and CSAT.</li>
+              </ul>
+            </div>
+            <div class="actions">
+              <a class="btn" href="/design/projects/simple2/index.html">View Case Study</a>
+            </div>
+          </article>
+        </div>
       </div>
     </section>
 
@@ -389,13 +382,15 @@ header{
       </div>
     </section>
 
-    <!-- CONTACT -->
-    <section id="contact" class="contact wrap" aria-labelledby="contactheading">
-      <h2 id="contactheading" class="section-title">Get in touch</h2>
-      <p class="section-sub">Open to contract or full-time roles in experience design, learning strategy, and AI-enabled performance solutions.</p>
-      <div class="cards">
-        <a href="mailto:miduco@gmail.com" aria-label="Email Michael">Email Michael</a>
-        <a href="https://www.linkedin.com/in/mikecolemansf" target="_blank" rel="noopener" aria-label="View Michael on LinkedIn">LinkedIn</a>
+    <!-- CONTACT (full-width, reverse gradient) -->
+    <section id="contact" class="contact" aria-labelledby="contactheading">
+      <div class="wrap">
+        <h2 id="contactheading" class="section-title">Get in touch</h2>
+        <p class="section-sub">Open to contract or full-time roles in experience design, learning strategy, and AI-enabled performance solutions.</p>
+        <div class="cards">
+          <a href="mailto:miduco@gmail.com" aria-label="Email Michael">Email Michael</a>
+          <a href="https://www.linkedin.com/in/mikecolemansf" target="_blank" rel="noopener" aria-label="View Michael on LinkedIn">LinkedIn</a>
+        </div>
       </div>
     </section>
   </main>
@@ -405,12 +400,66 @@ header{
   </footer>
 
   <script>
-    function toggleDrawer(){
-      const el = document.getElementById('drawer');
-      const open = el.classList.toggle('open');
-      el.setAttribute('aria-hidden', String(!open));
+    const drawer    = document.getElementById('drawer');
+    const scrim     = document.getElementById('scrim');
+    const hamburger = document.getElementById('hamburger');
+    const yearEl    = document.getElementById('year');
+    const BREAKPOINT = 1024; // keep in sync with --nav-breakpoint
+
+    function setNavHeight(){
+      const h = document.querySelector('header')?.offsetHeight || 64;
+      document.documentElement.style.setProperty('--nav-h', h + 'px');
     }
-    document.getElementById('year').textContent = new Date().getFullYear();
+
+    function openDrawer(){
+      drawer.classList.add('open');
+      drawer.setAttribute('aria-hidden','false');
+      if (hamburger) hamburger.setAttribute('aria-expanded','true');
+      if (scrim){
+        scrim.hidden = false;
+        requestAnimationFrame(()=> scrim.classList.add('show'));
+      }
+      document.body.style.overflow = 'hidden';
+      addGlobalListeners();
+    }
+    function closeDrawer(){
+      drawer.classList.remove('open');
+      drawer.setAttribute('aria-hidden','true');
+      if (hamburger) hamburger.setAttribute('aria-expanded','false');
+      if (scrim){
+        scrim.classList.remove('show');
+        setTimeout(()=>{ scrim.hidden = true; }, 200);
+      }
+      document.body.style.overflow = '';
+      removeGlobalListeners();
+    }
+    function toggleDrawer(){
+      const isOpen = drawer.classList.contains('open');
+      isOpen ? closeDrawer() : openDrawer();
+    }
+    function onPointerDown(e){
+      const clickInsideDrawer = drawer.contains(e.target);
+      const clickOnHamburger  = hamburger && hamburger.contains(e.target);
+      if (!clickInsideDrawer && !clickOnHamburger){ closeDrawer(); }
+    }
+    function onKeyDown(e){ if (e.key === 'Escape'){ closeDrawer(); } }
+    function addGlobalListeners(){
+      document.addEventListener('pointerdown', onPointerDown);
+      document.addEventListener('keydown', onKeyDown);
+    }
+    function removeGlobalListeners(){
+      document.removeEventListener('pointerdown', onPointerDown);
+      document.removeEventListener('keydown', onKeyDown);
+    }
+    function onResize(){
+      if (window.innerWidth > BREAKPOINT && drawer.classList.contains('open')){
+        closeDrawer();
+      }
+      setNavHeight();
+    }
+
+    window.addEventListener('load', () => { setNavHeight(); if (yearEl) yearEl.textContent = new Date().getFullYear(); });
+    window.addEventListener('resize', onResize);
   </script>
 </body>
 </html>
