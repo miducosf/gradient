@@ -192,6 +192,36 @@ header{
 @media (max-width: 900px){
   :root { --hero-top-gap: 5px; }
 }
+
+
+    /* ——— Tighter seam between Hero and Projects ——— */
+:root{
+  /* tweak these numbers to taste */
+  --hero-bottom-gap: 24px;     /* was 40px */
+  --projects-top-gap: 28px;    /* was 60px via `section` default */
+}
+
+/* Reduce bottom padding of the hero */
+.hero-wrap{
+  padding-bottom: var(--hero-bottom-gap);
+}
+
+/* Reduce top padding of the Projects section only */
+#projects{
+  padding-top: var(--projects-top-gap);
+}
+
+/* Optional: slightly tighter CTA spacing inside hero */
+.hero-cta{ margin-top: 14px; }
+
+/* Mobile: a touch tighter */
+@media (max-width: 900px){
+  :root{
+    --hero-bottom-gap: 20px;
+    --projects-top-gap: 22px;
+  }
+}
+
   </style>
 
   <!-- Schema.org: Person -->
