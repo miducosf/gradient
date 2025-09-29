@@ -241,25 +241,22 @@
 /* 1) Restore valid section padding (your earlier rule had a missing colon) */
 section{ padding: var(--section-vpad) 20px; }
 
-/* 2) HERO: add ~15px to the top only */
 .hero-wrap{ padding-top: calc(var(--hero-top-gap) + 15px); }
 
-/* 3) PROJECTS: -10px top, +10px bottom (relative to baseline) */
 #projects{
-  padding-top: calc(var(--section-vpad) - 10px);
+  padding-top: calc(var(--section-vpad) - 20px);
   padding-bottom: calc(var(--section-vpad) + 10px);
 }
 
-/* 4) ABOUT: +25px top and +25px bottom */
 #about{
   padding-top: calc(var(--section-vpad) + 25px);
   padding-bottom: calc(var(--section-vpad) + 25px);
 }
 
-/* 5) CONTACT: +20px top and +20px bottom */
+
 #contact{
   padding-top: calc(var(--section-vpad) + 20px);
-  padding-bottom: calc(var(--section-vpad) + 20px);
+  padding-bottom: calc(var(--section-vpad) + 30px);
 }
 
 }
@@ -348,7 +345,7 @@ section{ padding: var(--section-vpad) 20px; }
             </div>
           </div>
           <figure class="hero-photo" aria-label="Portrait of Michael Coleman">
-            <img src="assets/michael_portrait.jpg" alt="Michael Coleman portrait" loading="eager" fetchpriority="high">
+            <img src="assets/michael_portrait.png" alt="Michael Coleman portrait" loading="eager" fetchpriority="high">
           </figure>
         </div>
       </div>
