@@ -230,6 +230,38 @@
 /* Optional: add a gentle glow on hover for affordance */
 .contact .cards a:hover{
   box-shadow: 0 8px 28px rgba(2,8,23,.25);
+
+  /* —— SPACING PATCH —— */
+
+/* 0) One base vertical padding for all sections */
+:root{
+  --section-vpad: 60px; /* baseline for sections */
+}
+
+/* 1) Restore valid section padding (your earlier rule had a missing colon) */
+section{ padding: var(--section-vpad) 20px; }
+
+/* 2) HERO: add ~15px to the top only */
+.hero-wrap{ padding-top: calc(var(--hero-top-gap) + 15px); }
+
+/* 3) PROJECTS: -10px top, +10px bottom (relative to baseline) */
+#projects{
+  padding-top: calc(var(--section-vpad) - 10px);
+  padding-bottom: calc(var(--section-vpad) + 10px);
+}
+
+/* 4) ABOUT: +25px top and +25px bottom */
+#about{
+  padding-top: calc(var(--section-vpad) + 25px);
+  padding-bottom: calc(var(--section-vpad) + 25px);
+}
+
+/* 5) CONTACT: +20px top and +20px bottom */
+#contact{
+  padding-top: calc(var(--section-vpad) + 20px);
+  padding-bottom: calc(var(--section-vpad) + 20px);
+}
+
 }
     
   </style>
