@@ -353,6 +353,58 @@
   .s-grid{ grid-template-columns: 1fr; }  /* full-width single column */
 }
 
+    /* ——— Strengths: transparent center text, smaller type, 2-up on small screens ——— */
+
+/* Positioning stays so the overlay anchors inside each card */
+.s-flip{
+  position: relative;
+  overflow: hidden;
+}
+
+/* Keep z-order predictable */
+.s-flip .front{ position: relative; z-index: 1; }
+
+/* Center overlay: now just text (no panel bg/border) */
+.s-flip .back{
+  position: absolute; z-index: 2;
+  inset: 46px 18px 66px;      /* leaves title & bottom tag visible */
+  display: flex; align-items: center; justify-content: center; text-align: center;
+  padding: 0;                  /* no inner padding since there’s no panel */
+  background: transparent;     /* ← transparent overlay */
+  box-shadow: none;            /* no border/outline */
+  color: inherit;
+
+  opacity: 0; translate: 0 6px;
+  transition: opacity .22s ease, translate .22s ease;
+  pointer-events: none;
+}
+.s-flip .back h3{ display:none; }
+.s-flip .back p{
+  font-size: clamp(0.98rem, 0.9rem + 0.35vw, 1.15rem);  /* smaller & tidy */
+  line-height: 1.45;
+  max-width: 42ch;
+  margin: 0;
+}
+
+/* Reveal on hover/tap */
+@media (hover:hover) and (pointer:fine){
+  .s-flip:hover .back{ opacity:1; translate:0 0; }
+}
+.s-flip[aria-expanded="true"] .back{ opacity:1; translate:0 0; }
+
+/* Grid: keep two-up on small screens; drop to one-up only on very narrow phones */
+.s-grid{
+  grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+  justify-content: center;
+}
+@media (max-width: 700px){
+  .s-grid{ grid-template-columns: repeat(2, minmax(0, 1fr)); }
+}
+@media (max-width: 430px){
+  .s-grid{ grid-template-columns: 1fr; } /* only the smallest phones go single */
+}
+
+
   </style>
 
   <!-- Schema.org: Person -->
