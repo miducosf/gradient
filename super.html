@@ -209,6 +209,25 @@
       .s-flip .face{ transition:none; }
     }
 
+    /* Slower, smoother flip */
+:root{
+  --flip-dur: 1.1s; /* was .6s */
+  --flip-ease: cubic-bezier(.22,.74,.17,1); /* gentler accel/decel */
+  --flip-delay: .08s; /* tiny stagger so it feels less “twirly” */
+}
+
+.s-flip{ perspective: 1200px; } /* a touch deeper perspective feels calmer */
+
+.s-flip .face{
+  transition: transform var(--flip-dur) var(--flip-ease), background .25s ease;
+}
+
+/* Slight delay on the back face so both sides don’t snap at once */
+.s-flip .back{
+  transition-delay: var(--flip-delay), 0s; /* matches the order above */
+}
+
+
     /* Projects */
     #projects{ padding-top: var(--projects-top-gap); }
     .grid{display:grid;grid-template-columns:repeat(12,1fr);gap:22px;margin-top:5px}
