@@ -47,9 +47,7 @@
     /* Header (exact top-of-hero color) */
     header{
       position:sticky; top:0; z-index:50;
-      /* Fallback for older browsers */
-      background:#0c2b44;
-      /* 82% bg + 18% primary == rgba(primary,.18) over bg */
+      background:#0c2b44; /* fallback */
       background:color-mix(in srgb, var(--bg) 82%, var(--primary) 18%);
       backdrop-filter:saturate(160%) blur(6px);
       border-bottom:1px solid rgba(255,255,255,.06);
@@ -92,7 +90,6 @@
       .drawer{
         position:fixed; inset:0 0 auto auto; width:min(86%,320px); height:100vh;
         z-index:60;
-        /* Fallback + dynamic match, same as header */
         background:#0c2b44;
         background:color-mix(in srgb, var(--bg) 82%, var(--primary) 18%);
         box-shadow:var(--shadow);
@@ -154,104 +151,95 @@
     .section-title{font-size:clamp(22px,3.2vw,32px);margin-bottom:16px}
     .section-sub{color:var(--muted);max-width:820px}
 
-    /* ——— Strengths (no-flip; center reveal on hover/tap) ——— */
-#strengths{ background:#fff; }
-#strengths .wrap{ max-width:var(--maxw); margin:0 auto; }
-#strengths .section-title{ margin-bottom:8px; }
-#strengths .section-sub{ color:var(--muted); max-width:820px; margin-bottom:18px; }
+    /* ——— Strengths (consolidated) ——— */
+    #strengths{ background:#fff; }
+    #strengths .wrap{ max-width:var(--maxw); margin:0 auto; }
+    #strengths .section-title{ margin-bottom:8px; }
+    #strengths .section-sub{ color:var(--muted); max-width:820px; margin-bottom:18px; }
 
-.s-controls{ display:flex; gap:10px; margin:6px 0 14px; }
-.s-btn{
-  appearance:none; border:1px solid var(--primary); background:transparent; color:var(--primary);
-  padding:6px 12px; font-weight:600; border-radius:10px; cursor:pointer;
-}
-.s-btn:hover{ background:color-mix(in srgb, var(--primary) 12%, white 88%); }
-.s-btn:focus{ outline:3px solid var(--ring); outline-offset:1px; }
+    /* Grid: 1-up small, 4-up large (as requested) */
+    .s-grid{
+      list-style:none; display:grid; gap:22px;
+      grid-template-columns: 1fr;           /* small: one across */
+      justify-content:center; margin:0; padding:0;
+    }
+    @media (min-width: 1100px){
+      .s-grid{ grid-template-columns: repeat(4, minmax(0,1fr)); }  /* large: four across */
+    }
 
-/* Grid: auto-fit keeps rows balanced and fixes the “more left margin” look */
-.s-grid{
-  list-style:none;
-  display:grid;
-  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-  gap:22px;
-  margin-inline:auto;
-}
-.s-card{ grid-column:auto; }
+    .s-card{ grid-column:auto; }
 
-/* Single-column on narrow screens for perfect centering */
-@media (max-width: 700px){
-  .s-grid{ grid-template-columns: 1fr; gap:18px; }
-}
+    /* Card base & overlay behavior (no flip—transparent overlay text) */
+    .s-flip{
+      width:100%; display:block; border:0; background:transparent; padding:0; cursor:pointer;
+      border-radius:var(--radius);
+      position: relative; overflow: hidden;             /* container for overlay */
+    }
+    .s-flip:focus-visible{ outline:3px solid var(--ring); border-radius:var(--radius); }
 
-/* Card base */
-.s-flip{
-  width:100%; display:block; border:0; background:transparent; padding:0; cursor:pointer;
-  border-radius:var(--radius);
-}
-.s-flip:focus-visible{ outline:3px solid var(--ring); border-radius:var(--radius); }
+    .s-flip .face{
+      position:relative; min-height:220px; padding:18px 18px 56px; /* room for bottom tag */
+      border-radius:var(--radius); border:1px solid #e5e7eb; box-shadow:var(--shadow);
+      background:#f8fafc;
+    }
 
-.s-flip .face{
-  position:relative; min-height:210px; padding:18px 18px 56px; /* extra bottom room for tag */
-  border-radius:var(--radius); border:1px solid #e5e7eb; box-shadow:var(--shadow);
-  background:#f8fafc;
-}
+    /* Subtle gradient variation per card */
+    .s-card:nth-child(1) .front{
+      background:
+        linear-gradient(180deg, rgba(14,165,233,.10), rgba(14,165,233,0) 70%), /* sky */
+        #f8fafc;
+      border-color:#e0f2fe;
+    }
+    .s-card:nth-child(2) .front{
+      background:
+        linear-gradient(180deg, rgba(13,148,136,.10), rgba(13,148,136,0) 70%), /* teal */
+        #f8fafc;
+      border-color:#ccfbf1;
+    }
+    .s-card:nth-child(3) .front{
+      background:
+        linear-gradient(180deg, rgba(99,102,241,.10), rgba(99,102,241,0) 70%),  /* indigo */
+        #f8fafc;
+      border-color:#e0e7ff;
+    }
+    .s-card:nth-child(4) .front{
+      background:
+        linear-gradient(180deg, rgba(139,92,246,.10), rgba(139,92,246,0) 70%),  /* violet */
+        #f8fafc;
+      border-color:#ede9fe;
+    }
 
-/* Front content: title at top, tag pinned bottom */
-.s-flip .front{
-  display:block;
-  background:
-    linear-gradient(180deg, rgba(14,165,233,.08), rgba(14,165,233,0) 65%),
-    #f8fafc;
-}
-.s-flip .front h3{ font-size:1.05rem; margin-bottom:.45rem; }
-.s-flip .tag{
-  position:absolute; left:18px; right:18px; bottom:16px;
-  font-size:.95rem; color:var(--muted);
-}
+    /* Title & tag */
+    .s-flip .front h3{ font-size:1.05rem; margin-bottom:.45rem; }
+    .s-flip .tag{
+      position:absolute; left:18px; right:18px; bottom:16px;
+      font-size:.95rem; color:var(--muted);
+    }
 
-/* Center reveal: reuses the previous “back” node as an overlay */
-.s-flip .back{
-  /* wipe out previous flip transforms */
-  transform:none !important; backface-visibility:visible !important;
+    /* Transparent overlay: center text only (no panel) */
+    .s-flip .back{
+      position:absolute; z-index:2; inset:46px 18px 66px;     /* keep title/tag visible */
+      display:flex; align-items:center; justify-content:center; text-align:center;
+      padding:0; background:transparent; box-shadow:none; color:inherit;
+      opacity:0; translate:0 6px; transition:opacity .22s ease, translate .22s ease;
+      pointer-events:none;
+    }
+    .s-flip .back h3{ display:none; }
+    .s-flip .back p{
+      font-size: clamp(0.95rem, 0.88rem + 0.2vw, 1.1rem);    /* tidy & smaller */
+      line-height:1.45; max-width: 44ch; margin:0;
+    }
 
-  position:absolute; inset:46px 18px 66px;  /* leaves title & tag visible */
-  display:flex; align-items:center; justify-content:center; text-align:center;
-  padding:16px;
-  border-radius:calc(var(--radius) - 6px);
-  background: rgba(255,255,255,.92);
-  box-shadow: inset 0 0 0 1px #e5e7eb;
-  color: var(--text);
+    /* Reveal on hover/tap */
+    @media (hover:hover) and (pointer:fine){
+      .s-flip:hover .back{ opacity:1; translate:0 0; }
+    }
+    .s-flip[aria-expanded="true"] .back{ opacity:1; translate:0 0; }
 
-  opacity:0; translate:0 6px;
-  transition: opacity .28s ease, translate .28s ease;
-  pointer-events:none;   /* purely presentational; click/tap toggles aria-expanded */
-}
-.s-flip .back h3{ display:none; } /* keep only the center pitch text */
-.s-flip .back p{
-  font-size: clamp(1.02rem, 1rem + .6vw, 1.3rem);  /* bigger, as requested */
-  line-height:1.5; max-width: 42ch;
-}
-
-/* Reveal on hover (desktop) */
-@media (hover:hover) and (pointer:fine){
-  .s-flip:hover .back{ opacity:1; translate:0 0; }
-}
-
-/* Reveal on tap/click via your existing aria-expanded toggle (mobile-friendly) */
-.s-flip[aria-expanded="true"] .back{ opacity:1; translate:0 0; }
-
-/* Respect motion settings */
-@media (prefers-reduced-motion: reduce){
-  .s-flip .back{ transition:none; }
-}
-
-/* —— Strong override to neutralize old flip behavior if any styles remain —— */
-.s-flip .front, .s-flip .back{ transform:none !important; }
-@media (hover:hover) and (pointer:fine){
-  .s-flip:hover .front{ transform:none !important; }
-  .s-flip:hover .back{ transform:none !important; }
-}
-
+    /* Respect motion settings */
+    @media (prefers-reduced-motion: reduce){
+      .s-flip .back{ transition:none; }
+    }
 
     /* Projects */
     #projects{ padding-top: var(--projects-top-gap); }
@@ -281,7 +269,7 @@
         linear-gradient(0deg, rgba(14,165,233,.18), rgba(14,165,233,0) 55%),
         linear-gradient(0deg, var(--bg), var(--bg-2) 40%, #f7fafc 100%);
       color:#eaf2ff;
-      border-top:none; /* cleaned */
+      border-top:none;
     }
     #contact .section-sub{ color:#cfe3ff; }
     #contact a{ color:#eaf2ff; }
@@ -289,8 +277,8 @@
     .contact .cards{display:grid;grid-template-columns:repeat(12,1fr);gap:22px;margin-top:18px}
     .contact .cards a{
       grid-column:span 6;
-      border:1px solid rgba(255,255,255,.35);         /* brighter edge */
-      background: rgba(255,255,255,.18);              /* lighter base */
+      border:1px solid rgba(255,255,255,.35);
+      background: rgba(255,255,255,.18);
       backdrop-filter: saturate(140%) blur(2px);
       border-radius:var(--radius);
       padding:18px; box-shadow:var(--shadow);
@@ -313,98 +301,6 @@
         --projects-top-gap: 22px;
       }
     }
-
-    /* ——— Strengths overlay fix & centering ——— */
-
-/* 1) Make each card a positioning context + clip the overlay inside it */
-.s-flip{
-  position: relative;   /* <— key fix so .back positions inside the card */
-  overflow: hidden;     /* keep overlay neatly contained */
-}
-
-/* 2) Ensure stacking order is predictable */
-.s-flip .front{ position: relative; z-index: 1; }
-.s-flip .back{
-  position: absolute; z-index: 2;
-  inset: 46px 18px 66px;     /* leaves title (top) + tag (bottom) visible */
-  opacity: 0; translate: 0 6px;
-  transition: opacity .28s ease, translate .28s ease;
-}
-
-/* 3) Reveal on hover/tap (unchanged behavior) */
-@media (hover:hover) and (pointer:fine){
-  .s-flip:hover .back{ opacity:1; translate:0 0; }
-}
-.s-flip[aria-expanded="true"] .back{ opacity:1; translate:0 0; }
-
-/* 4) Slightly larger center text for punch */
-.s-flip .back p{
-  font-size: clamp(1.08rem, 1rem + 0.8vw, 1.35rem);
-  line-height: 1.5; max-width: 42ch;
-}
-
-/* 5) Small-screen centering: constrain track width and center the grid */
-.s-grid{
-  grid-template-columns: repeat(auto-fit, minmax(min(100%, 360px), 1fr));
-  justify-content: center;    /* centers tracks when there’s leftover space */
-  margin-inline: 0;           /* avoid odd auto margins from earlier */
-}
-@media (max-width: 700px){
-  .s-grid{ grid-template-columns: 1fr; }  /* full-width single column */
-}
-
-    /* ——— Strengths: transparent center text, smaller type, 2-up on small screens ——— */
-
-/* Positioning stays so the overlay anchors inside each card */
-.s-flip{
-  position: relative;
-  overflow: hidden;
-}
-
-/* Keep z-order predictable */
-.s-flip .front{ position: relative; z-index: 1; }
-
-/* Center overlay: now just text (no panel bg/border) */
-.s-flip .back{
-  position: absolute; z-index: 2;
-  inset: 46px 18px 66px;      /* leaves title & bottom tag visible */
-  display: flex; align-items: center; justify-content: center; text-align: center;
-  padding: 0;                  /* no inner padding since there’s no panel */
-  background: transparent;     /* ← transparent overlay */
-  box-shadow: none;            /* no border/outline */
-  color: inherit;
-
-  opacity: 0; translate: 0 6px;
-  transition: opacity .22s ease, translate .22s ease;
-  pointer-events: none;
-}
-.s-flip .back h3{ display:none; }
-.s-flip .back p{
-  font-size: clamp(0.98rem, 0.9rem + 0.35vw, 1.15rem);  /* smaller & tidy */
-  line-height: 1.45;
-  max-width: 42ch;
-  margin: 0;
-}
-
-/* Reveal on hover/tap */
-@media (hover:hover) and (pointer:fine){
-  .s-flip:hover .back{ opacity:1; translate:0 0; }
-}
-.s-flip[aria-expanded="true"] .back{ opacity:1; translate:0 0; }
-
-/* Grid: keep two-up on small screens; drop to one-up only on very narrow phones */
-.s-grid{
-  grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
-  justify-content: center;
-}
-@media (max-width: 700px){
-  .s-grid{ grid-template-columns: repeat(2, minmax(0, 1fr)); }
-}
-@media (max-width: 430px){
-  .s-grid{ grid-template-columns: 1fr; } /* only the smallest phones go single */
-}
-
-
   </style>
 
   <!-- Schema.org: Person -->
@@ -490,72 +386,70 @@
       </div>
     </section>
 
-   
-  <!-- Strengths -->
-<section id="strengths" class="strengths" aria-labelledby="strengthsheading">
-  <div class="wrap">
-    <h2 class="section-title" id="strengthsheading">Strengths & Capabilities</h2>
-    <p class="section-sub">
-      Four core buckets—<b>Learning Strategy</b>, <b>Instructional Design</b>, <b>AI-Forward Solutions</b>, and <b>Measurement &amp; Impact</b>.
-      Hover (or tap) any card to see how I approach each.
-    </p>
+    <!-- Strengths -->
+    <section id="strengths" class="strengths" aria-labelledby="strengthsheading">
+      <div class="wrap">
+        <h2 class="section-title" id="strengthsheading">Strengths & Capabilities</h2>
+        <p class="section-sub">
+          Four core buckets—<b>Learning Strategy</b>, <b>Instructional Design</b>, <b>AI-Forward Solutions</b>, and <b>Measurement &amp; Impact</b>.
+          Hover (or tap) any card to see how I approach each.
+        </p>
 
-    <ul class="s-grid" id="strengthsGrid" aria-label="Core capabilities">
-      <!-- 1. Learning Strategy -->
-      <li class="s-card">
-        <button class="s-flip" aria-expanded="false" aria-label="Learning Strategy details">
-          <div class="face front">
-            <h3>Learning Strategy</h3>
-            <p class="tag">Roadmap • moments of need • governance</p>
-          </div>
-          <div class="face back">
-            <p>I align business goals to a practical learning roadmap—prioritizing critical behaviors, sequencing across moments of need, and putting governance in place so good work scales.</p>
-          </div>
-        </button>
-      </li>
+        <ul class="s-grid" id="strengthsGrid" aria-label="Core capabilities">
+          <!-- 1. Learning Strategy -->
+          <li class="s-card">
+            <button class="s-flip" aria-expanded="false" aria-label="Learning Strategy details">
+              <div class="face front">
+                <h3>Learning Strategy</h3>
+                <p class="tag">Roadmap • moments of need • governance</p>
+              </div>
+              <div class="face back">
+                <p>I align business goals to a practical learning roadmap—prioritizing critical behaviors, sequencing across moments of need, and putting governance in place so good work scales.</p>
+              </div>
+            </button>
+          </li>
 
-      <!-- 2. Instructional Design -->
-      <li class="s-card">
-        <button class="s-flip" aria-expanded="false" aria-label="Instructional Design details">
-          <div class="face front">
-            <h3>Instructional Design</h3>
-            <p class="tag">Needs analysis • practice • job aids</p>
-          </div>
-          <div class="face back">
-            <p>Evidence-based ID that moves the needle: root-cause analysis, measurable objectives, realistic practice, and job aids that reduce time-to-proficiency.</p>
-          </div>
-        </button>
-      </li>
+          <!-- 2. Instructional Design -->
+          <li class="s-card">
+            <button class="s-flip" aria-expanded="false" aria-label="Instructional Design details">
+              <div class="face front">
+                <h3>Instructional Design</h3>
+                <p class="tag">Needs analysis • practice • job aids</p>
+              </div>
+              <div class="face back">
+                <p>Evidence-based ID that moves the needle: root-cause analysis, measurable objectives, realistic practice, and job aids that reduce time-to-proficiency.</p>
+              </div>
+            </button>
+          </li>
 
-      <!-- 3. AI-Forward Solutions -->
-      <li class="s-card">
-        <button class="s-flip" aria-expanded="false" aria-label="AI-Forward Solutions details">
-          <div class="face front">
-            <h3>AI-Forward Solutions</h3>
-            <p class="tag">Mentor bots • RAG • content acceleration</p>
-          </div>
-          <div class="face back">
-            <p>Pragmatic AI embedded in the flow of work—mentor chatbots, retrieval-augmented help, and content pipelines that are safe, explainable, and measurably helpful.</p>
-          </div>
-        </button>
-      </li>
+          <!-- 3. AI-Forward Solutions -->
+          <li class="s-card">
+            <button class="s-flip" aria-expanded="false" aria-label="AI-Forward Solutions details">
+              <div class="face front">
+                <h3>AI-Forward Solutions</h3>
+                <p class="tag">Mentor bots • RAG • content acceleration</p>
+              </div>
+              <div class="face back">
+                <p>Pragmatic AI embedded in the flow of work—mentor chatbots, retrieval-augmented help, and content pipelines that are safe, explainable, and measurably helpful.</p>
+              </div>
+            </button>
+          </li>
 
-      <!-- 4. Measurement & Impact -->
-      <li class="s-card">
-        <button class="s-flip" aria-expanded="false" aria-label="Measurement & Impact details">
-          <div class="face front">
-            <h3>Measurement &amp; Impact</h3>
-            <p class="tag">Outcomes • dashboards • experiments</p>
-          </div>
-          <div class="face back">
-            <p>Instrument outcomes, not just completions—define leading/lagging metrics, build simple dashboards, and run small experiments to iterate toward ROI.</p>
-          </div>
-        </button>
-      </li>
-    </ul>
-  </div>
-</section>
-
+          <!-- 4. Measurement & Impact -->
+          <li class="s-card">
+            <button class="s-flip" aria-expanded="false" aria-label="Measurement & Impact details">
+              <div class="face front">
+                <h3>Measurement &amp; Impact</h3>
+                <p class="tag">Outcomes • dashboards • experiments</p>
+              </div>
+              <div class="face back">
+                <p>Instrument outcomes, not just completions—define leading/lagging metrics, build simple dashboards, and run small experiments to iterate toward ROI.</p>
+              </div>
+            </button>
+          </li>
+        </ul>
+      </div>
+    </section>
 
     <!-- PROJECTS -->
     <section id="projects" aria-labelledby="projectsheading">
@@ -646,94 +540,4 @@
 
   <script>
     const drawer    = document.getElementById('drawer');
-    const scrim     = document.getElementById('scrim');
-    const hamburger = document.getElementById('hamburger');
-    const yearEl    = document.getElementById('year');
-    const BREAKPOINT = 1024; // keep in sync with --nav-breakpoint
-
-    function setNavHeight(){
-      const h = document.querySelector('header')?.offsetHeight || 64;
-      document.documentElement.style.setProperty('--nav-h', h + 'px');
-    }
-
-    function openDrawer(){
-      drawer.classList.add('open');
-      drawer.setAttribute('aria-hidden','false');
-      if (hamburger) hamburger.setAttribute('aria-expanded','true');
-      if (scrim){
-        scrim.hidden = false;
-        requestAnimationFrame(()=> scrim.classList.add('show'));
-      }
-      document.body.style.overflow = 'hidden';
-      addGlobalListeners();
-    }
-    function closeDrawer(){
-      drawer.classList.remove('open');
-      drawer.setAttribute('aria-hidden','true');
-      if (hamburger) hamburger.setAttribute('aria-expanded','false');
-      if (scrim){
-        scrim.classList.remove('show');
-        setTimeout(()=>{ scrim.hidden = true; }, 200);
-      }
-      document.body.style.overflow = '';
-      removeGlobalListeners();
-    }
-    function toggleDrawer(){
-      const isOpen = drawer.classList.contains('open');
-      isOpen ? closeDrawer() : openDrawer();
-    }
-    function onPointerDown(e){
-      const clickInsideDrawer = drawer.contains(e.target);
-      const clickOnHamburger  = hamburger && hamburger.contains(e.target);
-      if (!clickInsideDrawer && !clickOnHamburger){ closeDrawer(); }
-    }
-    function onKeyDown(e){ if (e.key === 'Escape'){ closeDrawer(); } }
-    function addGlobalListeners(){
-      document.addEventListener('pointerdown', onPointerDown);
-      document.addEventListener('keydown', onKeyDown);
-    }
-    function removeGlobalListeners(){
-      document.removeEventListener('pointerdown', onPointerDown);
-      document.removeEventListener('keydown', onKeyDown);
-    }
-    function onResize(){
-      if (window.innerWidth > BREAKPOINT && drawer.classList.contains('open')){
-        closeDrawer();
-      }
-      setNavHeight();
-    }
-
-    // ------- Strengths interactivity
-    function shuffleChildren(container){
-      const nodes = Array.from(container.children);
-      for (let i = nodes.length - 1; i > 0; i--) {
-        const j = Math.floor(Math.random() * (i + 1));
-        container.insertBefore(nodes[j], nodes[i]);
-        const tmp = nodes[i]; nodes[i] = nodes[j]; nodes[j] = tmp;
-      }
-    }
-
-    window.addEventListener('load', () => {
-      setNavHeight();
-      if (yearEl) yearEl.textContent = new Date().getFullYear();
-
-      // Flip on tap/click
-      document.querySelectorAll('.s-flip').forEach(btn => {
-        btn.addEventListener('click', () => {
-          const on = btn.getAttribute('aria-expanded') === 'true';
-          btn.setAttribute('aria-expanded', String(!on));
-        });
-      });
-
-      // Shuffle control
-      const grid = document.getElementById('strengthsGrid');
-      const shuffleBtn = document.getElementById('shuffleStrengths');
-      if (shuffleBtn && grid){
-        shuffleBtn.addEventListener('click', () => shuffleChildren(grid));
-      }
-    });
-
-    window.addEventListener('resize', onResize);
-  </script>
-</body>
-</html>
+    const scrim     = document.get
