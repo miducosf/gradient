@@ -313,6 +313,46 @@
         --projects-top-gap: 22px;
       }
     }
+
+    /* ——— Strengths overlay fix & centering ——— */
+
+/* 1) Make each card a positioning context + clip the overlay inside it */
+.s-flip{
+  position: relative;   /* <— key fix so .back positions inside the card */
+  overflow: hidden;     /* keep overlay neatly contained */
+}
+
+/* 2) Ensure stacking order is predictable */
+.s-flip .front{ position: relative; z-index: 1; }
+.s-flip .back{
+  position: absolute; z-index: 2;
+  inset: 46px 18px 66px;     /* leaves title (top) + tag (bottom) visible */
+  opacity: 0; translate: 0 6px;
+  transition: opacity .28s ease, translate .28s ease;
+}
+
+/* 3) Reveal on hover/tap (unchanged behavior) */
+@media (hover:hover) and (pointer:fine){
+  .s-flip:hover .back{ opacity:1; translate:0 0; }
+}
+.s-flip[aria-expanded="true"] .back{ opacity:1; translate:0 0; }
+
+/* 4) Slightly larger center text for punch */
+.s-flip .back p{
+  font-size: clamp(1.08rem, 1rem + 0.8vw, 1.35rem);
+  line-height: 1.5; max-width: 42ch;
+}
+
+/* 5) Small-screen centering: constrain track width and center the grid */
+.s-grid{
+  grid-template-columns: repeat(auto-fit, minmax(min(100%, 360px), 1fr));
+  justify-content: center;    /* centers tracks when there’s leftover space */
+  margin-inline: 0;           /* avoid odd auto margins from earlier */
+}
+@media (max-width: 700px){
+  .s-grid{ grid-template-columns: 1fr; }  /* full-width single column */
+}
+
   </style>
 
   <!-- Schema.org: Person -->
