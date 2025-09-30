@@ -178,7 +178,7 @@
     .s-flip:focus-visible{ outline:3px solid var(--ring); border-radius:var(--radius); }
 
     .s-flip .face{
-      position:relative; min-height:300px; padding:18px 18px 56px; /* room for bottom tag */
+      position:relative; min-height:240px; padding:18px 18px 56px; /* room for bottom tag */
       border-radius:var(--radius); border:1px solid #e5e7eb; box-shadow:var(--shadow);
       background:#f8fafc;
     }
@@ -243,6 +243,8 @@
 
     @media (min-width: 1100px){
   :root{ --s-card-min-h: 300px; }
+          .s-flip .face{
+      position:relative; min-height:300px; padding:18px 18px 56px; /* room for bottom tag */
 }
 
     /* Projects */
