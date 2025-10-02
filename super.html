@@ -64,10 +64,13 @@
       border-bottom:1px solid rgba(255,255,255,.06);
       color:#eaf2ff;
     }
-    .nav{max-width:var(--maxw);margin:0 auto;display:flex;align-items:center;justify-content:space-between;padding:14px 20px}
-    .brand{display:flex;align-items:center;gap:12px;font-weight:700;letter-spacing:.2px}
+    .nav{max-width:var(--maxw);margin:0 auto;display:flex;align-items:center;justify-content:space-between;padding:14px 20px;position:relative}
+
+    /* BRAND: make whole area a link */
+    .brand-link{display:flex;align-items:center;gap:12px;color:inherit}
+    .brand{display:flex;align-items:center;gap:12px;font-weight:700;letter-spacing:.2px;flex:0 0 auto}
     .brand .dot{width:10px;height:10px;border-radius:50%;background:linear-gradient(135deg,var(--primary),#7dd3fc)}
-    .brand .name{display:flex;align-items:center;gap:8px}
+    .brand .name{display:flex;align-items:center;gap:8px;white-space:nowrap}
     .brand .phd{
       font-weight:600;font-size:.78rem;letter-spacing:.06em;
       color:var(--muted-light);
@@ -84,6 +87,8 @@
       padding:6px 14px;border-radius:12px;font-weight:600;
       border:1px solid rgba(255,255,255,.20);
       color:#eaf2ff;background:transparent;
+      white-space:nowrap; /* keep on one line on small screens */
+      text-align:center;
     }
     header .btn:hover{background:rgba(255,255,255,.10)}
     header .btn.primary{border-color:var(--primary); background:var(--primary); color:white}
@@ -97,7 +102,9 @@
     /* Mobile nav */
     @media (max-width: 1024px){
       .menu{display:none}
-      .hamburger{display:block}
+      /* Center the hamburger absolutely within the nav */
+      .nav{position:relative}
+      .hamburger{display:block;position:absolute;left:50%;transform:translateX(-50%);z-index:61}
       .drawer{
         position:fixed; inset:0 0 auto auto; width:min(86%,320px); height:100vh;
         z-index:60;
@@ -110,6 +117,8 @@
       .drawer a{padding:12px 10px;border-radius:10px}
       .drawer a:hover{background:rgba(255,255,255,.10)}
       .drawer .sep{height:1px; background:rgba(255,255,255,.10); margin:10px 0}
+      /* Slightly shrink CTA text to avoid wrapping on small iPhones */
+      .cta .btn{font-size:.95rem;padding:6px 12px}
     }
 
     /* Scrim/backdrop for outside-click close */
@@ -139,21 +148,22 @@
 
     /* Hero photo */
     .hero-photo{
-      justify-self:end; align-self:center;
+      justify-self:center; align-self:center; /* center at all breakpoints */
       width:min(320px, 42vw); aspect-ratio:1/1; border-radius:22px; overflow:hidden;
       box-shadow:0 20px 50px rgba(2,8,23,.45), inset 0 0 0 1px rgba(255,255,255,.08);
       position:relative;
       background:radial-gradient(120px 120px at 80% 15%, rgba(14,165,233,.22), transparent 60%);
+      margin:0 auto; /* belt-and-suspenders centering */
     }
     .hero-photo::after{
       content:""; position:absolute; inset:-6px; border-radius:26px;
       border:2px solid rgba(125,211,252,.35); pointer-events:none; filter:blur(.5px);
     }
-    .hero-photo img{width:100%; height:100%; object-fit:cover; object-position:50% 40%}
+    .hero-photo img{width:100%; height:100%; object-fit:cover; object-position:50% 50%}
 
     @media (max-width: 900px){
       .hero-inner{grid-template-columns:1fr; gap:22px}
-      .hero-photo{justify-self:center; width:min(360px, 70vw)}
+      .hero-photo{width:min(360px, 70vw)}
     }
 
     /* ===== Sections (use per-section gap knobs) ===== */
@@ -382,16 +392,23 @@
   </script>
 </head>
 <body>
+  <!-- anchor for brand click -->
+  <div id="top"></div>
+
   <header>
     <nav class="nav" aria-label="Main">
-      <div class="brand">
-        <span class="dot" aria-hidden="true"></span>
-        <div class="name">
-          <span>Michael Coleman</span>
-          <span class="phd" aria-label="Doctor of Philosophy">Ph.D.</span>
+      <a class="brand-link" href="#top" aria-label="Go to top / homepage">
+        <div class="brand">
+          <span class="dot" aria-hidden="true"></span>
+          <div class="name">
+            <span>Michael Coleman</span>
+            <span class="phd" aria-label="Doctor of Philosophy">Ph.D.</span>
+          </div>
         </div>
-      </div>
-      <button id="hamburger" class="hamburger" aria-label="Open menu" onclick="toggleDrawer()">☰</button>
+      </a>
+
+      <button id="hamburger" class="hamburger" aria-label="Open menu" aria-expanded="false" aria-controls="drawer">☰</button>
+
       <div class="menu" role="menubar">
         <a href="#projects" role="menuitem">Projects</a>
         <a href="#about" role="menuitem">About</a>
@@ -402,11 +419,11 @@
       </div>
     </nav>
     <div class="drawer" id="drawer" aria-hidden="true">
-      <a href="assets/Michael_Coleman_Resume_PDF.pdf" onclick="toggleDrawer()">Resume</a>
-      <a href="#projects" onclick="toggleDrawer()">Projects</a>
+      <a href="assets/Michael_Coleman_Resume_PDF.pdf" onclick="toggleDrawer(false)">Resume</a>
+      <a href="#projects" onclick="toggleDrawer(false)">Projects</a>
       <div class="sep"></div>
-      <a href="#about" onclick="toggleDrawer()">About</a>
-      <a href="#contact" onclick="toggleDrawer()">Contact</a>
+      <a href="#about" onclick="toggleDrawer(false)">About</a>
+      <a href="#contact" onclick="toggleDrawer(false)">Contact</a>
     </div>
   </header>
 
@@ -499,7 +516,6 @@
         <p class="section-sub">Two showcase projects that demonstrate strategy, craft, and measurable impact.</p>
 
         <div class="grid">
-          
           <!-- ACE -->
           <article class="card" aria-labelledby="ace-title">
             <div class="card-media">
@@ -582,17 +598,41 @@
   <script>
     const drawer = document.getElementById('drawer');
     const scrim  = document.getElementById('scrim');
+    const hamburger = document.getElementById('hamburger');
 
-    function toggleDrawer(){
-      const isOpen = drawer.classList.toggle('open');
-      drawer.setAttribute('aria-hidden', String(!isOpen));
-      scrim.hidden = !isOpen;
-      scrim.classList.toggle('show', isOpen);
+    function toggleDrawer(forceOpen){
+      const willOpen = typeof forceOpen === 'boolean' ? forceOpen : !drawer.classList.contains('open');
+      drawer.classList.toggle('open', willOpen);
+      drawer.setAttribute('aria-hidden', String(!willOpen));
+      hamburger.setAttribute('aria-expanded', String(willOpen));
+      scrim.hidden = !willOpen;
+      scrim.classList.toggle('show', willOpen);
     }
-    scrim?.addEventListener('click', toggleDrawer);
+
+    hamburger?.addEventListener('click', () => toggleDrawer());
+    scrim?.addEventListener('click', () => toggleDrawer(false));
+    window.addEventListener('keydown', (e)=>{ if(e.key === 'Escape') toggleDrawer(false); });
+    window.addEventListener('resize', ()=>{ if(window.innerWidth > 1024) toggleDrawer(false); });
 
     // Year stamp
     document.getElementById('year').textContent = new Date().getFullYear();
+
+    // === Strengths: tap-to-reveal (mobile) & keyboard ===
+    const flips = Array.from(document.querySelectorAll('.s-flip'));
+    flips.forEach(btn =>{
+      // Click/tap toggles this card
+      btn.addEventListener('click', (e)=>{
+        const expanded = btn.getAttribute('aria-expanded') === 'true';
+        btn.setAttribute('aria-expanded', String(!expanded));
+      });
+      // Space/Enter support
+      btn.addEventListener('keydown', (e)=>{
+        if(e.key === ' ' || e.key === 'Enter'){
+          e.preventDefault();
+          btn.click();
+        }
+      });
+    });
   </script>
 </body>
 </html>
