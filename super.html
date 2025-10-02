@@ -70,7 +70,7 @@
     .brand-link{display:flex;align-items:center;gap:12px;color:inherit}
     .brand{display:flex;align-items:center;gap:12px;font-weight:700;letter-spacing:.2px;flex:0 0 auto}
     .brand .dot{width:10px;height:10px;border-radius:50%;background:linear-gradient(135deg,var(--primary),#7dd3fc)}
-    .brand .name{display:flex;align-items:center;gap:8px;white-space:nowrap}
+    .brand .name{display:flex;align-items:center;gap:8px;white-space:nowrap} /* desktop default */
     .brand .phd{
       font-weight:600;font-size:.78rem;letter-spacing:.06em;
       color:var(--muted-light);
@@ -104,7 +104,7 @@
       .menu{display:none}
       /* Center the hamburger absolutely within the nav */
       .nav{position:relative}
-      .hamburger{display:block;position:absolute;left:50%;transform:translateX(-50%);z-index:61}
+      .hamburger{display:block;position:absolute;left:50%;transform:translateX(-50%);z-index:40}
       .drawer{
         position:fixed; inset:0 0 auto auto; width:min(86%,320px); height:100vh;
         z-index:60;
@@ -337,6 +337,15 @@
     footer{padding:30px 20px;color:#6b7280;text-align:center}
 
     /* ===== Mobile knob overrides ===== */
+    @media (max-width: 1024px){
+      /* stack name to two lines; keep left aligned */
+      .brand .name{display:block;white-space:normal}
+      .brand .name .first,.brand .name .last{display:block;line-height:1.05}
+      .nav{position:relative;flex-wrap:wrap}
+      .hamburger{display:block;position:absolute;left:50%;transform:translateX(-50%);z-index:40}
+      .cta .btn{font-size:.95rem;padding:6px 12px}
+    }
+
     @media (max-width: 900px){
       :root{
         --hero-top-gap: 40px;
@@ -354,6 +363,7 @@
         --contact-top-gap: 46px;
         --contact-bottom-gap: 46px;
       }
+    }
     }
   </style>
 
@@ -401,8 +411,8 @@
         <div class="brand">
           <span class="dot" aria-hidden="true"></span>
           <div class="name">
-            <span>Michael Coleman</span>
-            <span class="phd" aria-label="Doctor of Philosophy">Ph.D.</span>
+            <span class="first">Michael</span>
+            <span class="last">Coleman <span class="phd" aria-label="Doctor of Philosophy">Ph.D.</span></span>
           </div>
         </div>
       </a>
@@ -410,6 +420,7 @@
       <button id="hamburger" class="hamburger" aria-label="Open menu" aria-expanded="false" aria-controls="drawer">☰</button>
 
       <div class="menu" role="menubar">
+        <a href="#strengths" role="menuitem">Strengths</a>
         <a href="#projects" role="menuitem">Projects</a>
         <a href="#about" role="menuitem">About</a>
         <a href="#contact" role="menuitem">Contact</a>
@@ -420,8 +431,12 @@
     </nav>
     <div class="drawer" id="drawer" aria-hidden="true">
       <a href="assets/Michael_Coleman_Resume_PDF.pdf" onclick="toggleDrawer(false)">Resume</a>
+      <a href="#strengths" onclick="toggleDrawer(false)">Strengths</a>
       <a href="#projects" onclick="toggleDrawer(false)">Projects</a>
       <div class="sep"></div>
+      <a href="#about" onclick="toggleDrawer(false)">About</a>
+      <a href="#contact" onclick="toggleDrawer(false)">Contact</a>
+    </div>
       <a href="#about" onclick="toggleDrawer(false)">About</a>
       <a href="#contact" onclick="toggleDrawer(false)">Contact</a>
     </div>
