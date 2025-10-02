@@ -360,6 +360,28 @@
         --contact-bottom-gap: 46px;
       }
     }
+/* === Brand name size overrides (slightly larger) === */
+:root{
+  --brand-name-size-desktop: 1.06rem;  /* was default body size; bump a touch */
+  --brand-name-size-mobile:  1.00rem;  /* was .95rem; keeps parity with CTA if you also bump CTA */
+}
+
+/* Desktop */
+.brand .name span{
+  font-size: var(--brand-name-size-desktop);
+}
+
+/* Mobile (≤1024px) */
+@media (max-width:1024px){
+  .brand .name span{
+    font-size: var(--brand-name-size-mobile);
+  }
+  /* If you want the name to match the “Résumé” button exactly, bump CTA too: */
+  .cta .btn{
+    font-size: var(--brand-name-size-mobile);
+  }
+}
+    
   </style>
 
   <!-- Schema.org: Person -->
@@ -648,5 +670,56 @@
       });
     });
   </script>
+  <script>
+  // --- Precise hamburger positioning (mobile) ---
+  const nav      = document.querySelector('.nav');
+  const brandEl  = document.querySelector('.brand-link');      // clickable brand
+  const ctaEl    = document.querySelector('.cta .btn');        // Résumé button
+
+  function positionHamburger() {
+    // Only apply on mobile layout (<= 1024px) and when elements are present
+    if (!nav || !brandEl || !ctaEl || window.innerWidth > 1024) {
+      // Fallback: keep centered
+      hamburger.style.left = '50%';
+      hamburger.style.transform = 'translateX(-50%)';
+      return;
+    }
+
+    const navRect   = nav.getBoundingClientRect();
+    const brandRect = brandEl.getBoundingClientRect();
+    const ctaRect   = ctaEl.getBoundingClientRect();
+
+    // Right edge of brand, left edge of CTA, both relative to the nav
+    const brandRight = brandRect.right - navRect.left;
+    const ctaLeft    = ctaRect.left   - navRect.left;
+
+    // Midpoint between brand and CTA
+    const mid = (brandRight + ctaLeft) / 2;
+
+    hamburger.style.left = `${mid}px`;
+    hamburger.style.transform = 'translateX(-50%)';
+  }
+
+  // Run on load, after fonts, on resize, and when drawer opens/closes (layout can shift)
+  window.addEventListener('load', positionHamburger);
+  if (document.fonts && document.fonts.ready) {
+    document.fonts.ready.then(positionHamburger);
+  }
+  window.addEventListener('resize', () => {
+    // Close drawer if crossing breakpoint, then reposition
+    positionHamburger();
+  });
+
+  // Reposition when the drawer toggles (to account for potential scrollbar changes)
+  const _origToggleDrawer = toggleDrawer;
+  window.toggleDrawer = function(forceOpen){
+    _origToggleDrawer(forceOpen);
+    // next frame after layout settles
+    requestAnimationFrame(positionHamburger);
+  };
+
+  // Also re-run once after the initial toggle binding (in case DOM paints late)
+  requestAnimationFrame(positionHamburger);
+</script>
 </body>
 </html>
