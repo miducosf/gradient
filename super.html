@@ -45,6 +45,9 @@
 
       /* Nav sizing */
       --nav-breakpoint: 1024px; /* one knob to rule them all */
+
+      /* Mobile Ph.D. float nudge */
+      --phd-x-offset: -88px; /* negative = left of hamburger, positive = right */
     }
 
     *{box-sizing:border-box}
@@ -55,7 +58,7 @@
     /* Improve anchor jump under sticky header */
     html{ scroll-padding-top: calc(var(--nav-h, 64px) + 12px); }
 
-    /* Header (exact top-of-hero color) */
+    /* Header */
     header{
       position:sticky; top:0; z-index:50;
       background:#0c2b44; /* fallback */
@@ -66,18 +69,19 @@
     }
     .nav{max-width:var(--maxw);margin:0 auto;display:flex;align-items:center;justify-content:space-between;padding:14px 20px;position:relative}
 
-    /* BRAND: make whole area a link */
+    /* Brand (whole area clickable) */
     .brand-link{display:flex;align-items:center;gap:12px;color:inherit}
     .brand{display:flex;align-items:center;gap:12px;font-weight:700;letter-spacing:.2px;flex:0 0 auto}
     .brand .dot{width:10px;height:10px;border-radius:50%;background:linear-gradient(135deg,var(--primary),#7dd3fc)}
-    .brand .name{display:flex;align-items:center;gap:8px;white-space:nowrap} /* desktop default */
-    .brand .phd{
+    .brand .name{display:flex;align-items:center;gap:8px;white-space:nowrap}
+    .phd-inline{
       font-weight:600;font-size:.78rem;letter-spacing:.06em;
       color:var(--muted-light);
       padding:2px 8px;border:1px solid rgba(255,255,255,.18);
       border-radius:999px;background:rgba(255,255,255,.06);
       transform:translateY(-1px);
     }
+
     .menu{display:flex;gap:20px;align-items:center}
     .menu a{padding:8px 12px;border-radius:10px;color:#eaf2ff}
     .menu a:hover{background:rgba(255,255,255,.08)}
@@ -102,12 +106,14 @@
     /* Mobile nav */
     @media (max-width: 1024px){
       .menu{display:none}
-      /* Center the hamburger absolutely within the nav */
       .nav{position:relative}
-      .hamburger{display:block;position:absolute;left:50%;transform:translateX(-50%);z-index:40}
+      .hamburger{
+        display:block;position:absolute;left:50%;transform:translateX(-50%);
+        z-index:40; /* below drawer */
+      }
       .drawer{
         position:fixed; inset:0 0 auto auto; width:min(86%,320px); height:100vh;
-        z-index:60;
+        z-index:60; /* above hamburger */
         background:#0c2b44;
         background:color-mix(in srgb, var(--bg) 82%, var(--primary) 18%);
         box-shadow:var(--shadow);
@@ -117,8 +123,40 @@
       .drawer a{padding:12px 10px;border-radius:10px}
       .drawer a:hover{background:rgba(255,255,255,.10)}
       .drawer .sep{height:1px; background:rgba(255,255,255,.10); margin:10px 0}
-      /* Slightly shrink CTA text to avoid wrapping on small iPhones */
       .cta .btn{font-size:.95rem;padding:6px 12px}
+    }
+
+    /* Floating Ph.D. chip (mobile) */
+    .phd-float{ display:none; }
+    @media (max-width: 1024px){
+      .brand .name{display:block;white-space:normal}
+      .brand .name .first, .brand .name .last{
+        display:block;
+        font-size:clamp(18px, 5.2vw, 22px);
+        line-height:1.2;        /* line spacing between first/last */
+      }
+      .brand .name .first{ margin-bottom:2px; } /* adjust 0–6px */
+
+      .phd-inline{ display:none; } /* hide inline chip on mobile */
+
+      .phd-float{
+        display:block;
+        position:absolute;
+        top:50%; /* same plane as hamburger */
+        left:calc(50% + var(--phd-x-offset));
+        transform:translate(-50%, -50%);
+        font-weight:600;
+        font-size:.82rem;
+        letter-spacing:.06em;
+        color:var(--muted-light);
+        padding:2px 8px;
+        border:1px solid rgba(255,255,255,.18);
+        border-radius:999px;
+        background:rgba(255,255,255,.06);
+        white-space:nowrap;
+        z-index:41; /* above hamburger (40), below drawer (60) */
+        pointer-events:none;
+      }
     }
 
     /* Scrim/backdrop for outside-click close */
@@ -151,9 +189,8 @@
       justify-self:center; align-self:center; /* center at all breakpoints */
       width:min(320px, 42vw); aspect-ratio:1/1; border-radius:22px; overflow:hidden;
       box-shadow:0 20px 50px rgba(2,8,23,.45), inset 0 0 0 1px rgba(255,255,255,.08);
-      position:relative;
+      position:relative; margin:0 auto;
       background:radial-gradient(120px 120px at 80% 15%, rgba(14,165,233,.22), transparent 60%);
-      margin:0 auto; /* belt-and-suspenders centering */
     }
     .hero-photo::after{
       content:""; position:absolute; inset:-6px; border-radius:26px;
@@ -176,7 +213,7 @@
     .section-title{font-size:clamp(22px,3.2vw,32px);margin-bottom:16px}
     .section-sub{color:var(--muted);max-width:820px}
 
-    /* ——— Strengths (consolidated) ——— */
+    /* ——— Strengths ——— */
     #strengths{
       --pad-top: var(--strengths-top-gap);
       --pad-bottom: var(--strengths-bottom-gap);
@@ -186,28 +223,28 @@
     #strengths .section-title{ margin-bottom:8px; }
     #strengths .section-sub{ color:var(--muted); max-width:820px; margin-bottom:18px; }
 
-    /* Grid: 1-up small, 4-up large (as requested) */
+    /* Grid: 1-up small, 4-up large */
     .s-grid{
       list-style:none; display:grid; gap:22px;
-      grid-template-columns: 1fr;           /* small: one across */
+      grid-template-columns: 1fr;
       justify-content:center; margin:0; padding:0;
     }
     @media (min-width: 1100px){
-      .s-grid{ grid-template-columns: repeat(4, minmax(0,1fr)); }  /* large: four across */
+      .s-grid{ grid-template-columns: repeat(4, minmax(0,1fr)); }
     }
 
     .s-card{ grid-column:auto; }
 
-    /* Card base & overlay behavior (no flip—transparent overlay text) */
+    /* Card base & overlay behavior */
     .s-flip{
       width:100%; display:block; border:0; background:transparent; padding:0; cursor:pointer;
       border-radius:var(--radius);
-      position: relative; overflow: hidden;             /* container for overlay */
+      position: relative; overflow: hidden;
     }
     .s-flip:focus-visible{ outline:3px solid var(--ring); border-radius:var(--radius); }
 
     .s-flip .face{
-      position:relative; min-height:240px; padding:18px 18px 56px; /* room for bottom tag */
+      position:relative; min-height:240px; padding:18px 18px 56px;
       border-radius:var(--radius); border:1px solid #e5e7eb; box-shadow:var(--shadow);
       background:#f8fafc;
     }
@@ -215,25 +252,25 @@
     /* Subtle gradient variation per card */
     .s-card:nth-child(1) .front{
       background:
-        linear-gradient(180deg, rgba(14,165,233,.10), rgba(14,165,233,0) 70%), /* sky */
+        linear-gradient(180deg, rgba(14,165,233,.10), rgba(14,165,233,0) 70%),
         #f8fafc;
       border-color:#e0f2fe;
     }
     .s-card:nth-child(2) .front{
       background:
-        linear-gradient(180deg, rgba(13,148,136,.10), rgba(13,148,136,0) 70%), /* teal */
+        linear-gradient(180deg, rgba(13,148,136,.10), rgba(13,148,136,0) 70%),
         #f8fafc;
       border-color:#ccfbf1;
     }
     .s-card:nth-child(3) .front{
       background:
-        linear-gradient(180deg, rgba(99,102,241,.10), rgba(99,102,241,0) 70%),  /* indigo */
+        linear-gradient(180deg, rgba(99,102,241,.10), rgba(99,102,241,0) 70%),
         #f8fafc;
       border-color:#e0e7ff;
     }
     .s-card:nth-child(4) .front{
       background:
-        linear-gradient(180deg, rgba(139,92,246,.10), rgba(139,92,246,0) 70%),  /* violet */
+        linear-gradient(180deg, rgba(139,92,246,.10), rgba(139,92,246,0) 70%),
         #f8fafc;
       border-color:#ede9fe;
     }
@@ -245,9 +282,9 @@
       font-size:.95rem; color:var(--muted);
     }
 
-    /* Transparent overlay: center text only (no panel) */
+    /* Transparent overlay text */
     .s-flip .back{
-      position:absolute; z-index:2; inset:0px 18px 66px;     /* keep title/tag visible */
+      position:absolute; z-index:2; inset:0px 18px 66px;
       display:flex; align-items:center; justify-content:center; text-align:center;
       padding:0; background:transparent; box-shadow:none; color:inherit;
       opacity:0; translate:0 6px; transition:opacity .22s ease, translate .22s ease;
@@ -259,13 +296,12 @@
       line-height:1.45; max-width: 44ch; margin:0;
     }
 
-    /* Reveal on hover/tap */
+    /* Reveal */
     @media (hover:hover) and (pointer:fine){
       .s-flip:hover .back{ opacity:1; translate:0 0; }
     }
     .s-flip[aria-expanded="true"] .back{ opacity:1; translate:0 0; }
 
-    /* Respect motion settings */
     @media (prefers-reduced-motion: reduce){
       .s-flip .back{ transition:none; }
     }
@@ -275,7 +311,7 @@
       .s-flip .face{ min-height:300px; }
     }
 
-    /* ===== Projects (wired to knobs) ===== */
+    /* ===== Projects ===== */
     #projects{
       --pad-top: var(--projects-top-gap);
       --pad-bottom: var(--projects-bottom-gap);
@@ -293,7 +329,7 @@
     .card .actions{margin-top:auto;padding:0 18px 18px;display:flex;gap:10px}
     @media (max-width: 940px){.card{grid-column:span 12}}
 
-    /* ===== About (wired to knobs) ===== */
+    /* ===== About ===== */
     #about{
       --pad-top: var(--about-top-gap);
       --pad-bottom: var(--about-bottom-gap);
@@ -304,7 +340,7 @@
     .stat b{display:block;font-size:1.4rem}
     @media (max-width: 900px){.about .cols{grid-template-columns:1fr}}
 
-    /* ===== Contact (wired to knobs; reverse hero gradient + light text) ===== */
+    /* ===== Contact ===== */
     #contact{
       --pad-top: var(--contact-top-gap);
       --pad-bottom: var(--contact-bottom-gap);
@@ -337,15 +373,6 @@
     footer{padding:30px 20px;color:#6b7280;text-align:center}
 
     /* ===== Mobile knob overrides ===== */
-    @media (max-width: 1024px){
-      /* stack name to two lines; keep left aligned */
-      .brand .name{display:block;white-space:normal}
-      .brand .name .first,.brand .name .last{display:block;line-height:1.05}
-      .nav{position:relative;flex-wrap:wrap}
-      .hamburger{display:block;position:absolute;left:50%;transform:translateX(-50%);z-index:40}
-      .cta .btn{font-size:.95rem;padding:6px 12px}
-    }
-
     @media (max-width: 900px){
       :root{
         --hero-top-gap: 40px;
@@ -363,7 +390,6 @@
         --contact-top-gap: 46px;
         --contact-bottom-gap: 46px;
       }
-    }
     }
   </style>
 
@@ -407,28 +433,40 @@
 
   <header>
     <nav class="nav" aria-label="Main">
+      <!-- Brand (click to top/home) -->
       <a class="brand-link" href="#top" aria-label="Go to top / homepage">
         <div class="brand">
           <span class="dot" aria-hidden="true"></span>
           <div class="name">
             <span class="first">Michael</span>
-            <span class="last">Coleman <span class="phd" aria-label="Doctor of Philosophy">Ph.D.</span></span>
+            <span class="last">Coleman</span>
+            <!-- Inline Ph.D. chip (desktop). Hidden on mobile -->
+            <span class="phd-inline" aria-label="Doctor of Philosophy">Ph.D.</span>
           </div>
         </div>
       </a>
 
+      <!-- Centered hamburger -->
       <button id="hamburger" class="hamburger" aria-label="Open menu" aria-expanded="false" aria-controls="drawer">☰</button>
 
+      <!-- Floating Ph.D. chip (mobile). Hidden on desktop -->
+      <span class="phd-float" aria-hidden="true">Ph.D.</span>
+
+      <!-- Desktop menu -->
       <div class="menu" role="menubar">
         <a href="#strengths" role="menuitem">Strengths</a>
         <a href="#projects" role="menuitem">Projects</a>
         <a href="#about" role="menuitem">About</a>
         <a href="#contact" role="menuitem">Contact</a>
       </div>
+
+      <!-- CTA -->
       <div class="cta">
         <a class="btn primary" href="assets/Michael_Coleman_Resume_PDF.pdf">View Resume</a>
       </div>
     </nav>
+
+    <!-- Drawer / pop-out -->
     <div class="drawer" id="drawer" aria-hidden="true">
       <a href="assets/Michael_Coleman_Resume_PDF.pdf" onclick="toggleDrawer(false)">Resume</a>
       <a href="#strengths" onclick="toggleDrawer(false)">Strengths</a>
@@ -590,7 +628,7 @@
       </div>
     </section>
 
-    <!-- CONTACT (full-width, reverse gradient) -->
+    <!-- CONTACT -->
     <section id="contact" class="contact" aria-labelledby="contactheading">
       <div class="wrap">
         <h2 id="contactheading" class="section-title">Get in touch</h2>
@@ -629,15 +667,13 @@
     // Year stamp
     document.getElementById('year').textContent = new Date().getFullYear();
 
-    // === Strengths: tap-to-reveal (mobile) & keyboard ===
+    // Strengths: tap-to-reveal (mobile) & keyboard
     const flips = Array.from(document.querySelectorAll('.s-flip'));
     flips.forEach(btn =>{
-      // Click/tap toggles this card
-      btn.addEventListener('click', (e)=>{
+      btn.addEventListener('click', ()=> {
         const expanded = btn.getAttribute('aria-expanded') === 'true';
         btn.setAttribute('aria-expanded', String(!expanded));
       });
-      // Space/Enter support
       btn.addEventListener('keydown', (e)=>{
         if(e.key === ' ' || e.key === 'Enter'){
           e.preventDefault();
